@@ -138,11 +138,29 @@ def delete__video_record(id):
     return render_template('addvideo.html')
 
 # Route to retrieve alll data from database
-@app.route('/archieve', methods=['GET'])
+@app.route('/api/archieve', methods=['GET'])
 def archieve():
     users = USER.query.all()
     videos = VIDEO.query.all()
+    results = user_schema.dump(users)
     return json(users)
+
+# Route to retrieve alll user data from database
+@app.route('/api/users', methods=['GET'])
+def archieve():
+    users = USER.query.all()
+    results = user_schema.dump(users)
+    response = json(results)
+    return response
+
+# Route to retrieve alll video from database
+@app.route('/api/videos', methods=['GET'])
+def archieve():
+    users = USER.query.all()
+    videos = VIDEO.query.all()
+    results = video_schema.dump(videos)
+    response = json(results)
+    return response
 
 
 # Route to retrieve videos from database based on event type
