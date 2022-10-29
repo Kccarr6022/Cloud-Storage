@@ -1,5 +1,4 @@
-import json
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
@@ -76,7 +75,7 @@ video_schema = VideoSchema()
 videos_schema = VideoSchema(many=True)
 
 user_schema = UserSchema()
-user_schema = UserSchema(many=True)
+users_schema = UserSchema(many=True)
 
 #db.drop_all()
 #db.create_all()
@@ -143,23 +142,22 @@ def return_archieve():
     users = USER.query.all()
     videos = VIDEO.query.all()
     results = user_schema.dump(users)
-    return json(users)
+    return jsonify(users)
 
 # Route to retrieve alll user data from database
 @app.route('/api/users', methods=['GET'])
 def return_users():
     users = USER.query.all()
-    results = user_schema.dump(users)
-    response = json(results)
+    results = users_schema.dump(users)
+    response = jsonify(results)
     return response
 
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
-    users = USER.query.all()
     videos = VIDEO.query.all()
-    results = video_schema.dump(videos)
-    response = json(results)
+    results = videos_schema.dump(videos)
+    response = jsonify(results)
     return response
 
 
