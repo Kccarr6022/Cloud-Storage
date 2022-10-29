@@ -1,3 +1,4 @@
+import json
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -80,7 +81,10 @@ user_schema = UserSchema(many=True)
 #db.drop_all()
 #db.create_all()
 
-
+@app.route('/members', methods=['GET'])
+def get_members():
+    pass
+    return {'members': ['kaden', 'josh', 'james']}
 
 
 
@@ -138,7 +142,7 @@ def delete__video_record(id):
 def archieve():
     users = USER.query.all()
     videos = VIDEO.query.all()
-    return render_template('results.html', users=users,videos=videos)
+    return json(users)
 
 
 # Route to retrieve videos from database based on event type
@@ -184,4 +188,4 @@ def account():
     return render_template('create-account.html')
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='8080', debug=True)
+    app.run(host='0.0.0.0', port='5000', debug=True)
