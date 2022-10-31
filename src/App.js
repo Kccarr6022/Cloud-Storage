@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Navbar from './components/Navbar'
+import Home from './components/Homepage'
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Navbar />
-      <h1>
-        Working
-      </h1>
+      <Home />
     </div>
   );
 }
