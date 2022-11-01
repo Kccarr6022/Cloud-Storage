@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Navbar from './components/Navbar'
-import Home from './components/Homepage'
+import {Routes, Route } from 'react-router-dom'
+import Home from './views/Home'
 
 function App() {
   return (
-    <div>
-      <Navbar />
-      <Home />
-    </div>
+    <>
+    <Routes>
+      <Route path='/' element={< Home/>} />
+    </Routes>
+    </>
   );
 }
 
