@@ -3,13 +3,13 @@ import Header from "../../components/NavBar";
 import Footer from "../../components/Footer";
 import './index.scss'
 
-const Home = () => {
+const Upload = () => {
   return (
     <>
       <Header />
-      <div className="home-page">
+      <div className="upload-page">
         <h1 className="title">
-          Cloud Storage
+          Upload
         </h1>
       </div>
       <Footer />
@@ -17,4 +17,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Upload;

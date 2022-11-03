@@ -80,13 +80,6 @@ users_schema = UserSchema(many=True)
 #db.drop_all()
 #db.create_all()
 
-@app.route('/members', methods=['GET'])
-def get_members():
-    pass
-    return {'members': ['kaden', 'josh', 'james']}
-
-
-
 # Route to put data into database
 @app.route('/add_video', methods=["POST"])
 def post_video():

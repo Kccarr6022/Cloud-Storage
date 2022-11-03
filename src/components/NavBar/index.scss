@@ -1,0 +1,26 @@
+.navigation-bar {
+  background-color: #050d3d;
+  color: #c8d4de;
+  height: 88px;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 0;
+
+  .navigation-logo {
+    width: 80px;
+  }
+  .navigation-items {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 2rem;
+    margin-right: 3.5rem;
+    vertical-align: middle;
+
+    a {
+        text-decoration: none;
+        color: #c8d4de;
+    }
+  }
+}
