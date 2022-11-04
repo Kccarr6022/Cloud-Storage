@@ -5,7 +5,7 @@ import Home from "./views/Home";
 import Live from "./views/Live/";
 import Upload from './views/Upload'
 import Archive from './views/Archive'
-import SignIn from './views/Account/Signin'
+import SignIn from './views/Account/Signin/index.js'
 import Register from './views/Account/Register'
 
 const theme = createTheme({

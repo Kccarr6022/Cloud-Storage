@@ -1,85 +1,25 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-
+from models import User, Video, video_schema, videos_schema, user_schema, users_schema
+from app import create_app,db
 import os
 
-# init app
-basedir = os.path.abspath(os.path.dirname(__file__))  # base directory
-app = Flask(__name__)
+####################################
+#
+# Global Definitions
+#
+####################################
+UPLOAD_FOLDER = '/uploads'
+BUCKET = "cloudstoragevideotest"
 
-# Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# Create an application instance
+app = create_app()
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
-# init db and ma
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
-
-# Database classes
-class USER(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(100))
-    last_name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-
-    def __rep__(self):
-        return f"Name: {self.first_name}, {self.last_name}"
-   # def __init__(self, id, first_name, last_name):
-    #    self.id = id
-     #   self.first_name = first_name
-      #  self.last_name = last_name
-
-class VIDEO(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    event_type = db.Column(db.String(10))
-    duration = db.Column(db.String(100))
-    fps = db.Column(db.Integer, nullable=False)
-    original_fps = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.String(100))
-    time = db.Column(db.String(100))
-    size = db.Column(db.Float)
-    width = db.Column(db.Integer)
-    height = db.Column(db.Integer)
-    url = db.Column(db.String(100))
-
-    def __rep__(self):
-        return f"Name: {self.name}, {self.event_type}"
-    #def __init__(self, name, event_type, duration, fps, original_fps, date, time, size, width, height, url):
-     #   self.id = id
-      #  self.name = name
-      #  self.event_type = event_type
-      #  self.duration = duration
-      #  self.fps = fps
-      #  self.original_fps = original_fps
-      #  self.date = date
-      #  self.time = time
-      #  self.size = size
-      #  self.width = width
-      #  self.height = height
-      #  self.url = url
-
-# Database schemas
-class VideoSchema(ma.Schema):
-    class Meta: # symptom number, symptom, symptom value
-        fields = ('id', 'name', 'event_type', 'duration', 'fps', 'original_fps', 'date', 'time', 'size', 'width', 'height', 'url')
-
-class UserSchema(ma.Schema):
-    class Meta:
-        fields = ('id', 'first_name', 'last_name', 'email')
-
-# Init schema
-
-video_schema = VideoSchema()
-videos_schema = VideoSchema(many=True)
-
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
 
 #db.drop_all()
 #db.create_all()
@@ -87,23 +27,24 @@ users_schema = UserSchema(many=True)
 # Route to put data into database
 @app.route('/add_video', methods=["POST"])
 def post_video():
-    name = request.form.get("name")
-    event_type = request.form.get("event_type")
-    duration = request.form.get("duration")
-    fps = int(request.form.get("fps"))
-    original_fps = int(request.form.get("original_fps"))
-    date = request.form.get("date")
-    time = request.form.get("time")
-    size = float(request.form.get("size"))
-    if request.form.get("resolution") == "4k":
+    data = request.get_json()
+    name = data.get("name")
+    event_type = data.get("event_type")
+    duration = data.get("duration")
+    fps = int(data.get("fps"))
+    original_fps = int(data.get("original_fps"))
+    date = data.get("date")
+    time = data.get("time")
+    size = float(data.get("size"))
+    if data.get("resolution") == "4k":
         width = 3840
         height = 2160
-    elif request.form.get("resolution") == "1080p":
+    elif data.get("resolution") == "1080p":
         width=1920
         height=1080
-    url = request.form.get("url")
+    url = data.get("url")
 
-    test_vid = VIDEO(name=name,
+    test_vid = Video(name=name,
                           event_type=event_type,
                           duration=duration,
                           fps=fps,
@@ -118,17 +59,23 @@ def post_video():
     db.session.add(test_vid)
     db.session.commit()
 
+@app.route('/token', methods=["POST"])
+def create_token():
+    data = request.get_json()
+    
+    pass
+
 # Route to delete user from database
 @app.route('/delete_user/<int:id>')
 def delete_user_record(id):
-    data = USER.query.get(id)
+    data = User.query.get(id)
     db.session.delete(data)
     db.session.commit()
 
 # Route to delete video from database
 @app.route('/delete_video/<int:id>')
 def delete__video_record(id):
-    data = VIDEO.query.get(id)
+    data = Video.query.get(id)
     db.session.delete(data)
     db.session.commit()
     return render_template('addvideo.html')
@@ -136,15 +83,15 @@ def delete__video_record(id):
 # Route to retrieve alll data from database
 @app.route('/api/archive', methods=['GET'])
 def return_archieve():
-    users = USER.query.all()
-    videos = VIDEO.query.all()
+    users = User.query.all()
+    videos = Video.query.all()
     results = user_schema.dump(users)
     return jsonify(users)
 
 # Route to retrieve alll user data from database
 @app.route('/api/users', methods=['GET'])
 def return_users():
-    users = USER.query.all()
+    users = User.query.all()
     results = users_schema.dump(users)
     response = jsonify(results)
     return response
@@ -152,14 +99,7 @@ def return_users():
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
-    videos = VIDEO.query.all()
-    results = videos_schema.dump(videos)
-    response = jsonify(results)
-    return response
-
-@app.route('/api/videos/<str:', methods=['GET'])
-def return_videos():
-    videos = VIDEO.query.all()
+    videos = Video.query.all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response
@@ -171,7 +111,7 @@ def search_by_type():
     event_type_test = request.form.get("event_type")
     #search = VIDEO.query.filter_by(VIDEO.event_type.in_(event_type_test))
 
-    type_search = VIDEO.query.filter(VIDEO.event_type==event_type_test)
+    type_search = Video.query.filter(Video.event_type==event_type_test)
     return render_template('home.html', type_search=type_search)
 
 
@@ -179,7 +119,7 @@ def search_by_type():
 @app.route('/date_search', methods=['POST'])
 def search_by_date():
     date_test = request.form.get("date")
-    date_search = VIDEO.query.filter(VIDEO.date==date_test)
+    date_search = Video.query.filter(Video.date==date_test)
     return render_template('home.html', date_search=date_search)
 
 # Route to retrieve videos from database based on date and time
@@ -187,7 +127,7 @@ def search_by_date():
 def search_by_date_time():
     date_t = request.form.get("date")
     time_t = request.form.get("time")
-    date_time_search = VIDEO.query.filter((VIDEO.date==date_t) & (VIDEO.time==time_t))
+    date_time_search = Video.query.filter((Video.date==date_t) & (Video.time==time_t))
     return render_template('home.html', date_time_search=date_time_search)
 
 # temporarily create account page
@@ -198,14 +138,14 @@ def about():
 # Route to add user to database
 @app.route('/add_user', methods=["POST"])
 def account():
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
-    email = request.form.get("email")
+    data = request.get_json()
+    first_name = data.get("first_name")
+    last_name = data.get("last_name")
+    email = data.get("email")
     
-    user = USER(first_name=first_name, last_name=last_name,email=email)
+    user = User(first_name=first_name, last_name=last_name,email=email)
     db.session.add(user)
     db.session.commit()
-    return render_template('create-account.html')
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', debug=True)
