@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+
 import os
 
 # init app
@@ -130,7 +134,7 @@ def delete__video_record(id):
     return render_template('addvideo.html')
 
 # Route to retrieve alll data from database
-@app.route('/api/archieve', methods=['GET'])
+@app.route('/api/archive', methods=['GET'])
 def return_archieve():
     users = USER.query.all()
     videos = VIDEO.query.all()
@@ -147,6 +151,13 @@ def return_users():
 
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
+def return_videos():
+    videos = VIDEO.query.all()
+    results = videos_schema.dump(videos)
+    response = jsonify(results)
+    return response
+
+@app.route('/api/videos/<str:', methods=['GET'])
 def return_videos():
     videos = VIDEO.query.all()
     results = videos_schema.dump(videos)
