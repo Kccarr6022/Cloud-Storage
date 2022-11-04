@@ -13,72 +13,50 @@ import os
 # Global Definitions
 #
 ####################################
-UPLOAD_FOLDER = '/uploads'
+
+UPLOAD_FOLDER = 'uploads'
 BUCKET = "cloudstoragevideotest"
 
 # Create an application instance
 app = create_app()
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+####################################
+#
+# Authentication
+#
+####################################
 
-#db.drop_all()
-#db.create_all()
-
-# Route to put data into database
-@app.route('/add_video', methods=["POST"])
-def post_video():
+@app.route('/api/login', methods=['POST'])
+def login():
+    print(request)
+    print('working')
     data = request.get_json()
-    name = data.get("name")
-    event_type = data.get("event_type")
-    duration = data.get("duration")
-    fps = int(data.get("fps"))
-    original_fps = int(data.get("original_fps"))
-    date = data.get("date")
-    time = data.get("time")
-    size = float(data.get("size"))
-    if data.get("resolution") == "4k":
-        width = 3840
-        height = 2160
-    elif data.get("resolution") == "1080p":
-        width=1920
-        height=1080
-    url = data.get("url")
+    print(data)
+    email = data.get("email")
+    password = data.get("password")
+    if email != "test" or password != "test":
+        return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
+    else:
+        access_token = create_access_token(identity=email)
+        return jsonify(access_token=access_token)
 
-    test_vid = Video(name=name,
-                          event_type=event_type,
-                          duration=duration,
-                          fps=fps,
-                          original_fps=original_fps,
-                          date=date,
-                          time=time,
-                          size=size,
-                          width=width,
-                          height=height,
-                          url=url)
-
-    db.session.add(test_vid)
-    db.session.commit()
-
-@app.route('/token', methods=["POST"])
-def create_token():
-    data = request.get_json()
-    
+@app.route("/register", methods=["POST"])
+def register():
     pass
+    # data = request.json.get()
+    # email = data.get("email")
+    # password = data.get("password")
+    # if email != "test" or password != "test":
+    #     return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
+    # else:
+    #     access_token = create_access_token(identity=email)
 
-# Route to delete user from database
-@app.route('/delete_user/<int:id>')
-def delete_user_record(id):
-    data = User.query.get(id)
-    db.session.delete(data)
-    db.session.commit()
-
-# Route to delete video from database
-@app.route('/delete_video/<int:id>')
-def delete__video_record(id):
-    data = Video.query.get(id)
-    db.session.delete(data)
-    db.session.commit()
-    return render_template('addvideo.html')
+####################################
+#
+# Retrieve Database Information
+#
+####################################
 
 # Route to retrieve alll data from database
 @app.route('/api/archive', methods=['GET'])
@@ -130,22 +108,48 @@ def search_by_date_time():
     date_time_search = Video.query.filter((Video.date==date_t) & (Video.time==time_t))
     return render_template('home.html', date_time_search=date_time_search)
 
-# temporarily create account page
-@app.route('/createaccount', methods=['GET'])
-def about():
-    return render_template('create-account.html')
 
-# Route to add user to database
-@app.route('/add_user', methods=["POST"])
-def account():
+####################################
+#
+# Add information to database
+#
+####################################
+
+# Route to put data into database
+@app.route('/add_video', methods=["POST"])
+def post_video():
     data = request.get_json()
-    first_name = data.get("first_name")
-    last_name = data.get("last_name")
-    email = data.get("email")
-    
-    user = User(first_name=first_name, last_name=last_name,email=email)
-    db.session.add(user)
+    name = data.get("name")
+    event_type = data.get("event_type")
+    duration = data.get("duration")
+    fps = int(data.get("fps"))
+    original_fps = int(data.get("original_fps"))
+    date = data.get("date")
+    time = data.get("time")
+    size = float(data.get("size"))
+    if data.get("resolution") == "4k":
+        width = 3840
+        height = 2160
+    elif data.get("resolution") == "1080p":
+        width=1920
+        height=1080
+    url = data.get("url")
+
+    test_vid = Video(name=name,
+                          event_type=event_type,
+                          duration=duration,
+                          fps=fps,
+                          original_fps=original_fps,
+                          date=date,
+                          time=time,
+                          size=size,
+                          width=width,
+                          height=height,
+                          url=url)
+
+    db.session.add(test_vid)
     db.session.commit()
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', debug=True)

@@ -11,10 +11,10 @@ from app import db,ma
 # Database classes
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True) # authentication token
-    first_name = db.Column(db.String(100))
-    last_name = db.Column(db.String(100))
-    email = db.Column(db.String(100))
-    videos = db.Column(db.)
+    first_name = db.Column(db.String(100),nullable=True)
+    last_name = db.Column(db.String(100),nullable=True)
+    email = db.Column(db.String(100),nullable=True)
+    videos = db.Column(db.Text,nullable=True)
 
     def __rep__(self):
         return f"Name: {self.first_name}, {self.last_name}"
