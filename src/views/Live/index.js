@@ -1,12 +1,13 @@
 import React from "react";
-import Header from '../../components/NavBar'
+import Header from "../../components/NavBar";
+import "./index.scss";
 
 const Live = () => {
   return (
     <>
-    <Header />
-      <div className="live">
-        <h3 className="page-title">Live</h3>
+      <Header />
+      <div className="live-page">
+        <h3 className="title">Live</h3>
       </div>
     </>
   );
