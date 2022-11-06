@@ -6,6 +6,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from models import User, Video, video_schema, videos_schema, user_schema, users_schema
 from app import create_app,db
+import botocore
 import os
 
 ####################################
