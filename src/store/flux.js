@@ -51,7 +51,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         fetch("http://localhost:5000/api/videos", opts)
           .then((resp) => resp.json())
-          .then((data) => setStore({ videos: data.mesage }));
+          .then((data) => setStore({ videos: data }))
+          .catch((error) => {
+            console.log("An error occured", error);
+          });
       },
     },
   };

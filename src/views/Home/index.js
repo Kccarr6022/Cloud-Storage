@@ -5,18 +5,13 @@ import "./index.scss";
 import { Context } from "../../store/appContext";
 
 const Home = () => {
-  const { store, actions } = useContext(Context);
-
-  useEffect(() => {
-    actions.getVideos();
-  }, []);
-
   return (
     <>
       <Header />
       <div className="home-page">
         <h1 className="title">Cloud Storage</h1>
-        <p>{store.videos}</p>
+        <p>
+        </p>
       </div>
       <Footer />
     </>
