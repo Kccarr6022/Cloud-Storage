@@ -2,6 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       token: null,
+      videos: null,
     },
     actions: {
       login: async (email, password) => {
@@ -31,6 +32,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.log("There was an error", error);
         }
+      },
+      logout: () => {
+        sessionStorage.removeItem("token");
+        setStore({ token: null });
+      },
+      syncTokenFromSessionStorage: () => {
+        const token = sessionStorage.getItem("token");
+        if (token && token != "" && token != undefined)
+          setStore({ token: token });
+      },
+      getVideos: () => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: "Bearer" + store.token,
+          },
+        };
+        fetch("http://localhost:5000/api/videos", opts)
+          .then((resp) => resp.json())
+          .then((data) => setStore({ videos: data.mesage }));
       },
     },
   };

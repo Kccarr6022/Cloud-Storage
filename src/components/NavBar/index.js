@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { Context } from '../../store/appContext'
 import "./index.scss";
 import logo from "../../assets/logofile.png";
 
 const Navbar = () => {
+  const { store, actions } = useContext(Context)
   return (
     <nav className="navigation-bar">
       <ul className="navigation-items">
@@ -21,7 +23,7 @@ const Navbar = () => {
           <a href='/live'>Live</a>
         </li>
         <li>
-          <a href='/signin'>Signin</a>
+          {(!store.token) ? <a href='/signin'>Signin</a> : <span onClick={actions.logout}>Signout</span>}
         </li>
       </ul>
     </nav>

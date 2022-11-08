@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, Blueprint
+from flask import Flask, render_template, request, jsonify, Blueprint, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_jwt_extended import create_access_token
@@ -6,7 +6,7 @@ from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from models import User, Video, video_schema, videos_schema, user_schema, users_schema
 from app import create_app,db
-import botocore
+import boto3, botocore
 import os
 
 ####################################
@@ -21,6 +21,10 @@ BUCKET = "cloudstoragevideotest"
 # Create an application instance
 app = create_app()
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['S3_BUCKET'] = "S3_BUCKET_NAME"
+app.config['S3_KEY'] = os.getenv('AWS_ACCESS_KEY_ID')
+app.config['S3_SECRET'] = os.getenv('AWS_SECRET_ACCESS_KEY')
+app.config['S3_LOCATION'] = 'http://{}.s3.amazonaws.com/'.format(BUCKET)
 
 ####################################
 #
@@ -39,6 +43,7 @@ def login():
     if email != "test" or password != "test":
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
     else:
+        print('good response')
         access_token = create_access_token(identity=email)
         return jsonify(access_token=access_token)
 

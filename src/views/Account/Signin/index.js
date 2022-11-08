@@ -13,13 +13,11 @@ const Signin = () => {
   const navigate = useNavigate();
 
   const onClickHandler = () => {
-    actions.login(email, password).then(() => {
-      navigate("/");
-    });
+    actions.login(email, password);
   };
 
   if (store.token && store.token != "" && store.token != undefined)
-    navigate.push("/");
+    navigate("/");
 
   return (
     <>
@@ -43,8 +41,8 @@ const Signin = () => {
             }}
           />
           <button onClick={onClickHandler}>Signin</button>
+          {store.videos}
         </div>
-        )}
       </div>
       <Footer />
     </>
