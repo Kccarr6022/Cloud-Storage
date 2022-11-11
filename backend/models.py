@@ -30,12 +30,12 @@ class Videos(db.Model):
     duration = db.Column(db.String(100))
     fps = db.Column(db.Integer, nullable=False)
     original_fps = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.String(100), default= datetime.now)
+    date = db.Column(db.String(100))
     time = db.Column(db.String(100))
     size = db.Column(db.Float)
     width = db.Column(db.Integer)
     height = db.Column(db.Integer)
-    url = db.Column(db.String(100))
+    url = db.Column(db.String(100), nullable=False)
 
     def __rep__(self):
         return f"Name: {self.name}, {self.event_type}"

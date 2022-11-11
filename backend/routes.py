@@ -47,7 +47,7 @@ def login():
     else:
         print('good response')
         access_token = create_access_token(identity=email)
-        return jsonify(access_token=access_token)
+        return jsonify(access_token=access_token), 200
 
 @app.route("/api/register", methods=["POST"])
 def register():
