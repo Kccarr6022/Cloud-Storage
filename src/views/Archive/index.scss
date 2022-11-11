@@ -1,13 +1,26 @@
 .archive-page {
-    height: 100vh;
-    background-image: url('../../assets/background.jpg');
+  height: 100vh;
+  background-image: url("../../assets/background.jpg");
 
-    .title {
-        padding-top: 2rem;
-        margin-left: 2rem;
-        font-size: 62px;
-        font-weight: 700;
-        color:#C8D4DE;
-    }
-    
+  .title {
+    padding-top: 2rem;
+    margin-left: 2rem;
+    font-size: 62px;
+    font-weight: 700;
+    color: #c8d4de;
+  }
+
+  .videos {
+    width: 80%;
+    height: 80%;
+    background-color: rgb(4, 4, 42);
+    align-content: center;
+    margin: 0 auto;
+  }
+
+  .videos-header {
+    color: white;
+    text-align: center;
+    font-size: xx-large;
+  }
 }
