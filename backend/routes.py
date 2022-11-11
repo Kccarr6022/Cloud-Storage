@@ -50,13 +50,12 @@ def login():
 @app.route("/api/register", methods=["POST"])
 def register():
     data = request.get_json()
-    print(data)
     firstname = data.get("firstname")
     lastname = data.get("lastname")
     email = data.get("email")
     password = data.get("password")
-    # if email is in database already return error
-    if email != "test" or password != "test":
+    email_exists = Users.query.filter_by(email=email).all()
+    if email_exists:
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
 
     # if email is not in database create account
