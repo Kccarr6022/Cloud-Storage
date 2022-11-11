@@ -4,7 +4,7 @@ from flask_marshmallow import Marshmallow
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
-from models import User, Video, video_schema, videos_schema, user_schema, users_schema
+from models import Users, Videos, video_schema, videos_schema, user_schema, users_schema
 from app import create_app,db
 import boto3, botocore
 import os
@@ -47,16 +47,29 @@ def login():
         access_token = create_access_token(identity=email)
         return jsonify(access_token=access_token)
 
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
-    pass
-    # data = request.json.get()
-    # email = data.get("email")
-    # password = data.get("password")
-    # if email != "test" or password != "test":
-    #     return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
-    # else:
-    #     access_token = create_access_token(identity=email)
+    data = request.get_json()
+    print(data)
+    firstname = data.get("firstname")
+    lastname = data.get("lastname")
+    email = data.get("email")
+    password = data.get("password")
+    # if email is in database already return error
+    if email != "test" or password != "test":
+        return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
+
+    # if email is not in database create account
+    else:
+        access_token = create_access_token(identity=email)
+        user = Users(id=access_token,
+         first_name=firstname,
+         last_name=lastname,
+         email=email,
+         password=password)
+        db.session.add(user)
+        db.session.commit()
+        return jsonify({"msg": f"{email}'s account has been created"}), 200 # success
 
 ####################################
 #
@@ -67,15 +80,15 @@ def register():
 # Route to retrieve alll data from database
 @app.route('/api/archive', methods=['GET'])
 def return_archieve():
-    users = User.query.all()
-    videos = Video.query.all()
+    users = Users.query.all()
+    videos = Videos.query.all()
     results = user_schema.dump(users)
     return jsonify(users)
 
 # Route to retrieve alll user data from database
 @app.route('/api/users', methods=['GET'])
 def return_users():
-    users = User.query.all()
+    users = Users.query.all()
     results = users_schema.dump(users)
     response = jsonify(results)
     return response
@@ -83,7 +96,7 @@ def return_users():
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
-    videos = Video.query.all()
+    videos = Videos.query.all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response
@@ -95,7 +108,7 @@ def search_by_type():
     event_type_test = request.form.get("event_type")
     #search = VIDEO.query.filter_by(VIDEO.event_type.in_(event_type_test))
 
-    type_search = Video.query.filter(Video.event_type==event_type_test)
+    type_search = Videos.query.filter(Videos.event_type==event_type_test)
     return render_template('home.html', type_search=type_search)
 
 
@@ -103,7 +116,7 @@ def search_by_type():
 @app.route('/date_search', methods=['POST'])
 def search_by_date():
     date_test = request.form.get("date")
-    date_search = Video.query.filter(Video.date==date_test)
+    date_search = Videos.query.filter(Videos.date==date_test)
     return render_template('home.html', date_search=date_search)
 
 # Route to retrieve videos from database based on date and time
@@ -111,7 +124,7 @@ def search_by_date():
 def search_by_date_time():
     date_t = request.form.get("date")
     time_t = request.form.get("time")
-    date_time_search = Video.query.filter((Video.date==date_t) & (Video.time==time_t))
+    date_time_search = Videos.query.filter((Videos.date==date_t) & (Videos.time==time_t))
     return render_template('home.html', date_time_search=date_time_search)
 
 
@@ -141,7 +154,7 @@ def post_video():
         height=1080
     url = data.get("url")
 
-    test_vid = Video(name=name,
+    test_vid = Videos(name=name,
                           event_type=event_type,
                           duration=duration,
                           fps=fps,
