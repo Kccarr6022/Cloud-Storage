@@ -40,7 +40,9 @@ def login():
     print(data)
     email = data.get("email")
     password = data.get("password")
-    if email != "test" or password != "test":
+
+    credentials_match = Users.query.filter_by(email=email, password=password).all()
+    if not credentials_match:
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
     else:
         print('good response')
@@ -54,10 +56,11 @@ def register():
     lastname = data.get("lastname")
     email = data.get("email")
     password = data.get("password")
-    email_exists = Users.query.filter_by(email=email).all()
-    if email_exists:
-        return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
 
+    email_exists = Users.query.filter_by(email=email).all()
+    # if email is in database return already created
+    if email_exists:
+        return jsonify({"msg": "Bad username or password"}), 409 # Already exists
     # if email is not in database create account
     else:
         access_token = create_access_token(identity=email)
