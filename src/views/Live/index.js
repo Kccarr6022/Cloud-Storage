@@ -8,11 +8,11 @@ const Live = () => {
       <Header />
       <div className="live-page">
         <h3 className="title">Live</h3>
+
         <iframe
-          src="https://livestream.com/accounts/22787557/events/10671512"
-          width="1920"
-          height="1080"
-          allowfullscreen
+          src="//www.googletagmanager.com/ns.html?id=GTM-KNG43F"
+          height="1920"
+          width="1080"
         ></iframe>
       </div>
     </>
