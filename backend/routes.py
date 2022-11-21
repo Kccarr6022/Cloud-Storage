@@ -170,6 +170,7 @@ def post_video():
 
     db.session.add(test_vid)
     db.session.commit()
+    
 
 
 if __name__ == "__main__":

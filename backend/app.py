@@ -13,12 +13,21 @@ from flask_marshmallow import Marshmallow
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 db = SQLAlchemy()
 migrate = Migrate(compare_type = True)
 ma = Marshmallow()
 cors = CORS()
+
+DB_URL = os.environ['POSTGRES_URL']
+DB = os.environ.get('POSTGRES_DB')
+DB_USER = os.environ.get('POSTGRES_USER')
+DB_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
+CONNECTION_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_URL}/{DB}"
 
 def create_app():
     # Initialize application
@@ -26,8 +35,10 @@ def create_app():
     app = Flask(__name__)
 
     # Database
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_DATABASE_URI'] = CONNECTION_URL
+    db = SQLAlchemy(app)
+    migrate = Migrate(app, db)
 
     #jwt
     app.config["JWT_SECRET_KEY"] = os.environ.get('JWT_SECRET')
