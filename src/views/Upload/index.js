@@ -6,9 +6,6 @@ import Error401 from '../Error401'
 import './index.scss'
 import AWS from 'aws-sdk'
 
-const { REACT_APP_S3_BUCKET, } = process.env
-const REGION = 'us-east-1'
-
 AWS.config.update({
   accessKeyId: process.env.REACT_APP_ACCESS_KEY_ID,
   secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
@@ -21,6 +18,18 @@ const myBucket = new AWS.S3({
 
 const Upload = () => {
   const { store, actions } = useContext(Context)
+  const { id, setId } = useState(null)
+  const { name, setName } = useState(null)
+  const { eventType, setEventType } = useState(null)
+  const { duration, setDuration } = useState(null)
+  const { fps, setFps } = useState(null)
+  const { originalFps, setOriginalFps } = useState(null)
+  const { date, setDate } = useState(null)
+  const { time, setTime } = useState(null)
+  const { size, setSize } = useState(null)
+  const { width, setWidth } = useState(null)
+  const { height, setHeight } = useState(null)
+  const { url, setUrl } = useState(null)
   const [progress, setProgress] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
 
@@ -32,7 +41,7 @@ const Upload = () => {
     const params = {
       ACL: 'public-read',
       Body: file,
-      Bucket: REACT_APP_S3_BUCKET,
+      Bucket: process.env.REACT_APP_S3_BUCKET,
       Key: file.name,
     }
 
@@ -46,6 +55,42 @@ const Upload = () => {
       })
   }
 
+  const handleSubmission = async () => {
+    const opts = {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+        name: name,
+        event_type: eventType,
+        duration: duration,
+        fps: fps,
+        original_fps: originalFps,
+        date: date,
+        time: time,
+        size: size,
+        width: width,
+        height: height,
+        url: url,
+      }),
+    }
+
+    try {
+      uploadFile(selectedFile)
+      const resp = await fetch('http://localhost:5000/api/register', opts)
+      if (resp.status !== 200) {
+        alert('There has been an error')
+        return false
+      }
+      return true
+    } catch (error) {
+      console.log('There was an error', error)
+    }
+  }
+
   return store.token == null ? (
     <>
       <Error401 />
@@ -57,35 +102,72 @@ const Upload = () => {
         <h1 className='title'>Upload</h1>
         <div className='upload-form'>
           <label for='name'>Name of video: </label>
-          <input id='name' type='name' />
-          <br />
-          <label for='date'>Date Recorded: </label>
-          <input id='date' type='date' />
+          <input
+            id='name'
+            type='name'
+            onChange={e => {
+              setName(e.target.value)
+            }}
+          />
           <br />
 
           <label>Event Type: </label>
-          <input type='radio' id='intracloud' name='event_type' value='Intracloud' />
-          <label for='intracloud'>Intracloud</label>
-          <input type='radio' id='cloud_to_ground' name='event_type' value='Cloud to Ground' />
-          <label for='cloud_to_ground'>Cloud to Ground</label>
-          <input type='radio' id='cloud_to_cloud' name='event_type' value='Cloud to Cloud' />
-          <label for='cloud_to_cloud'>Cloud to Cloud</label>
-          <input type='radio' id='spider' name='event_type' value='Spider' />
-          <label for='spider'>Spider</label>
-          <input type='radio' id='upward' name='event_type' value='Upward' />
-          <label for='upward'>Upward</label>
+          <select id='event-type' name='event-type' size='1'>
+            <option value='Intracloud'> Intracloud </option>
+            <option value='Cloud-to-Ground'> Cloud to Ground </option>
+            <option value='Cloud-to-Cloud'> Cloud to Cloud </option>
+            <option value='Spider'> Spider </option>
+            <option value='Upward'> Upward </option>
+          </select>
           <br />
 
-          <label for='fps'>Original FPS: </label>
-          <input id='fps' type='number' />
+          <label for='date'>Date Recorded: </label>
+          <input
+            id='date'
+            type='date'
+            onChange={e => {
+              setDate(e.target.value)
+            }}
+          />
+          <br />
+          <label for='time'>Time Recorded: </label>
+          <input
+            id='time'
+            type='time'
+            onChange={e => {
+              setTime(e.target.value)
+            }}
+          />
           <br />
 
           <label for='fps'>Current FPS: </label>
-          <input id='fps' type='number' />
+          <input
+            id='fps'
+            type='number'
+            onChange={e => {
+              setFps(e.target.value)
+            }}
+          />
+          <br />
+
+          <label for='fps'>Original FPS: </label>
+          <input
+            id='fps'
+            type='number'
+            onChange={e => {
+              setOriginalFps(e.target.value)
+            }}
+          />
           <br />
 
           <label for='fps'>File Size: </label>
-          <input id='fps' type='number' />
+          <input
+            id='fps'
+            type='number'
+            onChange={e => {
+              setSize(e.target.value)
+            }}
+          />
           <br />
 
           <label>Resolution: </label>
@@ -97,7 +179,8 @@ const Upload = () => {
 
           <div>Native SDK File Upload Progress is {progress}%</div>
           <input type='file' onChange={handleFileInput} />
-          <button onClick={() => uploadFile(selectedFile)}> Upload to S3</button>
+          <br />
+          <button onClick={() => handleSubmission}> Upload to S3</button>
         </div>
       </div>
       <Footer />
