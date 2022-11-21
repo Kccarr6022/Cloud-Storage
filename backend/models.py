@@ -9,7 +9,6 @@ from enum import unique
 from sqlalchemy import true
 from app import db,ma
 from datetime import datetime
-import typing
 
 # Database classes
 class Users(db.Model):
@@ -25,16 +24,16 @@ class Users(db.Model):
 
 class Videos(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    event_type = db.Column(db.String(10))
-    duration = db.Column(db.String(100))
-    fps = db.Column(db.Integer, nullable=False)
-    original_fps = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.String(100))
-    time = db.Column(db.String(100))
-    size = db.Column(db.Float)
-    width = db.Column(db.Integer)
-    height = db.Column(db.Integer)
+    name = db.Column(db.String(100), nullable=False)
+    event_type = db.Column(db.String(10), nullable=True)
+    duration = db.Column(db.String(100), nullable=False)
+    fps = db.Column(db.Integer, nullable=True)
+    original_fps = db.Column(db.Integer, nullable=True)
+    date = db.Column(db.String(100), nullable=False)
+    time = db.Column(db.String(100), nullable=False)
+    size = db.Column(db.Float, nullable= False)
+    width = db.Column(db.Integer, nullable = False)
+    height = db.Column(db.Integer, nullable = False)
     url = db.Column(db.String(100), nullable=False)
 
     def __rep__(self):

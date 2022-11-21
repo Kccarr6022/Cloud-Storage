@@ -1,13 +1,27 @@
 .upload-page {
-    height: 100vh;
-    background-image: url("../../assets/background.jpg");
-  
-    .title {
-      padding-top: 2rem;
-      margin-left: 2rem;
-      font-size: 62px;
-      font-weight: 700;
-      color: #c8d4de;
-    }
+  height: 100vh;
+  background-image: url('../../assets/background.jpg');
+  text-align: center;
+
+  .title {
+    padding-top: 2rem;
+    margin-left: 2rem;
+    font-size: 62px;
+    font-weight: 700;
+    color: rgb(4, 4, 42);
   }
-  
+
+  label {
+    color: white;
+    padding: 20px;
+  }
+}
+
+.upload-form {
+  width: 80%;
+  height: 80%;
+  border-radius: 25px;
+  background-color: rgb(4, 4, 42);
+  align-content: center;
+  margin: 0 auto;
+}
