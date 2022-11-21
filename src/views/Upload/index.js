@@ -18,23 +18,43 @@ const myBucket = new AWS.S3({
 
 const Upload = () => {
   const { store, actions } = useContext(Context)
-  const { id, setId } = useState(null)
-  const { name, setName } = useState(null)
-  const { eventType, setEventType } = useState(null)
-  const { duration, setDuration } = useState(null)
-  const { fps, setFps } = useState(null)
-  const { originalFps, setOriginalFps } = useState(null)
-  const { date, setDate } = useState(null)
-  const { time, setTime } = useState(null)
-  const { size, setSize } = useState(null)
-  const { width, setWidth } = useState(null)
-  const { height, setHeight } = useState(null)
-  const { url, setUrl } = useState(null)
+  const [id, setId] = useState(null)
+  const [name, setName] = useState(null)
+  const [eventType, setEventType] = useState(null)
+  const [duration, setDuration] = useState(null)
+  const [fps, setFps] = useState(null)
+  const [originalFps, setOriginalFps] = useState(null)
+  const [date, setDate] = useState(null)
+  const [time, setTime] = useState(null)
+  const [size, setSize] = useState(null)
+  const [width, setWidth] = useState(null)
+  const [height, setHeight] = useState(null)
+  const [filename, setFileName] = useState(null)
   const [progress, setProgress] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
 
+  const handleEventTypeInput = e => {
+    setEventType(e.target.value)
+    console.log(e.target.value)
+  }
+
+  const handleResolutionInput = e => {
+    const { value } = e.target
+    if (value === '4k') {
+      console.log('4k')
+      setHeight('2160')
+      setWidth('3820')
+    } else if (value === '1080p') {
+      console.log('1080p')
+      setWidth('1920')
+      setHeight('1080')
+    } else {
+    }
+  }
+
   const handleFileInput = e => {
     setSelectedFile(e.target.files[0])
+    setFileName(e.target.files[0].name)
   }
 
   const uploadFile = file => {
@@ -74,7 +94,7 @@ const Upload = () => {
         size: size,
         width: width,
         height: height,
-        url: url,
+        url: `https://cloudstoragebuckets3.s3.amazonaws.com/${filename}}`,
       }),
     }
 
@@ -112,7 +132,7 @@ const Upload = () => {
           <br />
 
           <label>Event Type: </label>
-          <select id='event-type' name='event-type' size='1'>
+          <select id='event-type' name='event-type' size='1' onChange={handleEventTypeInput}>
             <option value='Intracloud'> Intracloud </option>
             <option value='Cloud-to-Ground'> Cloud to Ground </option>
             <option value='Cloud-to-Cloud'> Cloud to Cloud </option>
@@ -171,10 +191,12 @@ const Upload = () => {
           <br />
 
           <label>Resolution: </label>
-          <input type='radio' id='4k' name='resolution' value='4k' />
-          <label for='4k'>4k</label>
-          <input type='radio' id='1080' name='resolution' value='1080' />
-          <label for='1080'>1080p</label>
+          <div onChange={handleResolutionInput}>
+            <input type='radio' id='4k' name='resolution' value='4k' />
+            <label for='4k'>4k</label>
+            <input type='radio' id='1080' name='resolution' value='1080p' />
+            <label for='1080'>1080p</label>
+          </div>
           <br />
 
           <div>Native SDK File Upload Progress is {progress}%</div>
