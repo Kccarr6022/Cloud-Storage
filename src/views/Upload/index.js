@@ -42,8 +42,8 @@ const Upload = () => {
     const { value } = e.target
     if (value === '4k') {
       console.log('4k')
-      setHeight('2160')
       setWidth('3820')
+      setHeight('2160')
     } else if (value === '1080p') {
       console.log('1080p')
       setWidth('1920')
@@ -76,6 +76,7 @@ const Upload = () => {
   }
 
   const handleSubmission = async () => {
+    console.log('handleSubmission')
     const opts = {
       method: 'post',
       headers: {
@@ -83,7 +84,7 @@ const Upload = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: id,
+        id: store['token'],
         name: name,
         event_type: eventType,
         duration: duration,
@@ -100,7 +101,7 @@ const Upload = () => {
 
     try {
       uploadFile(selectedFile)
-      const resp = await fetch('http://localhost:5000/api/register', opts)
+      const resp = await fetch('http://localhost:5000/api/add_video', opts)
       if (resp.status !== 200) {
         alert('There has been an error')
         return false
@@ -121,7 +122,7 @@ const Upload = () => {
       <div className='upload-page'>
         <h1 className='title'>Upload</h1>
         <div className='upload-form'>
-          <label for='name'>Name of video: </label>
+          <label htmlFor='name'>Name of video: </label>
           <input
             id='name'
             type='name'
@@ -141,7 +142,7 @@ const Upload = () => {
           </select>
           <br />
 
-          <label for='date'>Date Recorded: </label>
+          <label htmlFor='date'>Date Recorded: </label>
           <input
             id='date'
             type='date'
@@ -150,17 +151,27 @@ const Upload = () => {
             }}
           />
           <br />
-          <label for='time'>Time Recorded: </label>
+          <label htmlFor='time'>Time Recorded: </label>
           <input
             id='time'
             type='time'
             onChange={e => {
-              setTime(e.target.value)
+              setDuration(e.target.value)
             }}
           />
           <br />
 
-          <label for='fps'>Current FPS: </label>
+          <label htmlFor='duration'>Duration: </label>
+          <input
+            id='duration'
+            type='number'
+            onChange={e => {
+              setFps(e.target.value)
+            }}
+          />
+          <br />
+
+          <label htmlFor='fps'>Current FPS: </label>
           <input
             id='fps'
             type='number'
@@ -170,7 +181,7 @@ const Upload = () => {
           />
           <br />
 
-          <label for='fps'>Original FPS: </label>
+          <label htmlFor='fps'>Original FPS: </label>
           <input
             id='fps'
             type='number'
@@ -180,7 +191,7 @@ const Upload = () => {
           />
           <br />
 
-          <label for='fps'>File Size: </label>
+          <label htmlFor='fps'>File Size: </label>
           <input
             id='fps'
             type='number'
@@ -193,16 +204,16 @@ const Upload = () => {
           <label>Resolution: </label>
           <div onChange={handleResolutionInput}>
             <input type='radio' id='4k' name='resolution' value='4k' />
-            <label for='4k'>4k</label>
+            <label htmlFor='4k'>4k</label>
             <input type='radio' id='1080' name='resolution' value='1080p' />
-            <label for='1080'>1080p</label>
+            <label htmlFor='1080'>1080p</label>
           </div>
           <br />
 
           <div>Native SDK File Upload Progress is {progress}%</div>
           <input type='file' onChange={handleFileInput} />
           <br />
-          <button onClick={() => handleSubmission}> Upload to S3</button>
+          <button onClick={handleSubmission}> Upload to S3</button>
         </div>
       </div>
       <Footer />
