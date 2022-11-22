@@ -24,17 +24,17 @@ class Users(db.Model):
 
 class Videos(db.Model):
     id = db.Column(db.Text, ForeignKey("users.id"))
-    name = db.Column(db.String(100), primary_key = True)
-    event_type = db.Column(db.String(10), nullable=True)
-    duration = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.Text, primary_key = True)
+    event_type = db.Column(db.Text, nullable=True)
+    duration = db.Column(db.Text, nullable=False)
     fps = db.Column(db.Integer, nullable=True)
     original_fps = db.Column(db.Integer, nullable=True)
-    date = db.Column(db.String(100), nullable=False)
-    time = db.Column(db.String(100), nullable=False)
+    date = db.Column(db.Text, nullable=False)
+    time = db.Column(db.Text, nullable=False)
     size = db.Column(db.Float, nullable= False)
     width = db.Column(db.Integer, nullable = False)
     height = db.Column(db.Integer, nullable = False)
-    url = db.Column(db.String(100), nullable=False)
+    url = db.Column(db.Text, nullable=False)
 
     def __rep__(self):
         return f"Name: {self.name}, {self.event_type}"

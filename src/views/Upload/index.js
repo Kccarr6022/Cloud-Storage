@@ -156,7 +156,7 @@ const Upload = () => {
             id='time'
             type='time'
             onChange={e => {
-              setDuration(e.target.value)
+              setTime(e.target.value)
             }}
           />
           <br />
@@ -166,7 +166,7 @@ const Upload = () => {
             id='duration'
             type='number'
             onChange={e => {
-              setFps(e.target.value)
+              setDuration(e.target.value)
             }}
           />
           <br />
