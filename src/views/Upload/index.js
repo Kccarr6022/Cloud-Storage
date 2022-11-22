@@ -32,6 +32,7 @@ const Upload = () => {
   const [filename, setFileName] = useState(null)
   const [progress, setProgress] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
+  const [isPublic, setIsPublic] = useState(null)
 
   const handleEventTypeInput = e => {
     setEventType(e.target.value)
@@ -55,6 +56,16 @@ const Upload = () => {
   const handleFileInput = e => {
     setSelectedFile(e.target.files[0])
     setFileName(e.target.files[0].name)
+  }
+
+  const handleIsPublicInput = e => {
+    const { value } = e.target
+    if (value === 'True') {
+      console.log('Public')
+      setIsPublic(true)
+    } else {
+      setIsPublic(false)
+    }
   }
 
   const uploadFile = file => {
@@ -96,6 +107,7 @@ const Upload = () => {
         width: width,
         height: height,
         url: `https://cloudstoragebuckets3.s3.amazonaws.com/${filename}`,
+        is_public: isPublic,
       }),
     }
 
@@ -210,10 +222,19 @@ const Upload = () => {
           </div>
           <br />
 
-          <div>Native SDK File Upload Progress is {progress}%</div>
-          <input type='file' onChange={handleFileInput} />
+          <label>Post to Public: </label>
+          <div onChange={handleIsPublicInput}>
+            <input type='radio' id='private' name='public' value='False' />
+            <label htmlFor='private'>Private</label>
+            <input type='radio' id='public' name='public' value='True' />
+            <label htmlFor='public'>Public</label>
+          </div>
+          <br />
+
+          <input className='file-submission' type='file' onChange={handleFileInput} />
           <br />
           <button onClick={handleSubmission}> Upload to S3</button>
+          <div className='progress-bar'>Video File Upload Progress is {progress}%</div>
         </div>
       </div>
       <Footer />

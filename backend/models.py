@@ -35,6 +35,7 @@ class Videos(db.Model):
     width = db.Column(db.Integer, nullable = False)
     height = db.Column(db.Integer, nullable = False)
     url = db.Column(db.Text, nullable=False)
+    is_public = db.Column(db.Boolean, nullable=False, default=False)
 
     def __rep__(self):
         return f"Name: {self.name}, {self.event_type}"

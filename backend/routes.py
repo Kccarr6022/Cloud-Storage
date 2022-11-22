@@ -61,6 +61,7 @@ def register():
         return jsonify({"msg": "Bad username or password"}), 409 # Already exists
     # if email is not in database create account
     else:
+        print('email does not exist')
         access_token = create_access_token(identity=email)
         user = Users(id=access_token,
          first_name=firstname,
@@ -94,9 +95,10 @@ def return_users():
     return response
 
 # Route to retrieve alll video from database
-@app.route('/api/videos', methods=['GET'])
+@app.route('/api/videos', methods=['POST'])
 def return_videos():
-    videos = Videos.query.all()
+    user_id = request.get_json().get('id')
+    videos = Videos.query.filter_by(id=user_id).all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response
@@ -153,10 +155,13 @@ def post_video():
                         size=float(data.get('size')),
                         width=int(data.get('width')),
                         height=int(data.get('height')),
-                        url=data.get('url'))
+                        url=data.get('url'),
+                        is_public=bool(data.get('is_public')))
 
     db.session.add(video)
     db.session.commit()
+
+    return jsonify({"msg": "success"}), 200 # success
     
 
 
