@@ -95,9 +95,11 @@ def return_users():
     return response
 
 # Route to retrieve alll video from database
-@app.route('/api/videos', methods=['POST'])
+@app.route('/api/videos', methods=['GET'])
 def return_videos():
     videos = Videos.query.filter(Videos.is_public == True).all()
+    for video in videos:
+        video.id = "private"
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response

@@ -86,6 +86,21 @@ const getState = ({ getStore, getActions, setStore }) => {
             id: store.token,
           }),
         }
+        fetch('http://localhost:5000/api/user_videos', opts)
+          .then(resp => resp.json())
+          .then(data => setStore({ videos: data }))
+          .catch(error => {
+            console.log('An error occured', error)
+          })
+      },
+      getPublicVideos: () => {
+        const opts = {
+          method: 'get',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
         fetch('http://localhost:5000/api/videos', opts)
           .then(resp => resp.json())
           .then(data => setStore({ videos: data }))
