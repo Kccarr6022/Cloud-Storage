@@ -40,12 +40,11 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    credentials_match = Users.query.filter_by(email=email, password=password).all()
-    if not credentials_match:
+    user = Users.query.filter_by(email=email, password=password)
+    if not user:
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
     else:
-        print('good response')
-        access_token = create_access_token(identity=email)
+        access_token = user[0].id
         return jsonify(access_token=access_token), 200
 
 @app.route("/api/register", methods=["POST"])
@@ -136,36 +135,25 @@ def search_by_date_time():
 ####################################
 
 # Route to put data into database
-@app.route('/add_video', methods=["POST"])
+@app.route('/api/add_video', methods=["POST"])
 def post_video():
     data = request.get_json()
-    name = data.get("name")
-    event_type = data.get("event_type")
-    duration = data.get("duration")
-    fps = int(data.get("fps"))
-    original_fps = int(data.get("original_fps"))
-    date = data.get("date")
-    time = data.get("time")
-    size = float(data.get("size"))
-    if data.get("resolution") == "4k":
-        width = 3840
-        height = 2160
-    elif data.get("resolution") == "1080p":
-        width=1920
-        height=1080
-    url = data.get("url")
+    print(data)
+    print(data.get('id'))
+    
 
-    test_vid = Videos(name=name,
-                          event_type=event_type,
-                          duration=duration,
-                          fps=fps,
-                          original_fps=original_fps,
-                          date=date,
-                          time=time,
-                          size=size,
-                          width=width,
-                          height=height,
-                          url=url)
+    test_vid = Videos(id=data.get('id'),
+                        name=data.get('name'),
+                        event_type=data.get('event_type'),
+                        duration=data.get('duration'),
+                        fps=data.get('fps'),
+                        original_fps=data.get('original_fps'),
+                        date=data.get('date'),
+                        time=data.get('time'),
+                        size=data.get('size'),
+                        width=data.get('width'),
+                        height=data.get('height'),
+                        url=data.get('url'))
 
     db.session.add(test_vid)
     db.session.commit()

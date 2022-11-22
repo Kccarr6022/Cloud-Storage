@@ -6,7 +6,7 @@
 ###############################################
 
 from enum import unique
-from sqlalchemy import true
+from sqlalchemy import true, ForeignKey
 from app import db,ma
 from datetime import datetime
 
@@ -23,8 +23,8 @@ class Users(db.Model):
         return f"Name: {self.first_name}, {self.last_name}"
 
 class Videos(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Text, ForeignKey("users.id"))
+    name = db.Column(db.String(100), primary_key = True)
     event_type = db.Column(db.String(10), nullable=True)
     duration = db.Column(db.String(100), nullable=False)
     fps = db.Column(db.Integer, nullable=True)
