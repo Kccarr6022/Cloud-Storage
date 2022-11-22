@@ -95,7 +95,7 @@ const Upload = () => {
         size: size,
         width: width,
         height: height,
-        url: `https://cloudstoragebuckets3.s3.amazonaws.com/${filename}}`,
+        url: `https://cloudstoragebuckets3.s3.amazonaws.com/${filename}`,
       }),
     }
 

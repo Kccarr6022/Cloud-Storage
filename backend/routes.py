@@ -40,11 +40,11 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    user = Users.query.filter_by(email=email, password=password)
+    user = Users.query.filter_by(email=email, password=password).all()
     if not user:
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
     else:
-        access_token = user[0].id
+        access_token = user[-1].id
         return jsonify(access_token=access_token), 200
 
 @app.route("/api/register", methods=["POST"])
@@ -142,20 +142,20 @@ def post_video():
     print(data.get('id'))
     
 
-    test_vid = Videos(id=data.get('id'),
+    video = Videos(id=data.get('id'),
                         name=data.get('name'),
                         event_type=data.get('event_type'),
                         duration=data.get('duration'),
-                        fps=data.get('fps'),
+                        fps=int(data.get('fps')),
                         original_fps=data.get('original_fps'),
                         date=data.get('date'),
                         time=data.get('time'),
-                        size=data.get('size'),
-                        width=data.get('width'),
-                        height=data.get('height'),
+                        size=float(data.get('size')),
+                        width=int(data.get('width')),
+                        height=int(data.get('height')),
                         url=data.get('url'))
 
-    db.session.add(test_vid)
+    db.session.add(video)
     db.session.commit()
     
 
