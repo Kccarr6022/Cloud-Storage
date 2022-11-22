@@ -97,20 +97,19 @@ def return_users():
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['POST'])
 def return_videos():
+    videos = Videos.query.filter(Videos.is_public == True).all()
+    results = videos_schema.dump(videos)
+    response = jsonify(results)
+    return response
+
+# Route to retrieve alll video from database
+@app.route('/api/user_videos', methods=['POST'])
+def return_user_videos():
     user_id = request.get_json().get('id')
     videos = Videos.query.filter((Videos.id==user_id) | (Videos.is_public == True)).all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response
-
-# # Route to retrieve alll video from database
-# @app.route('/api/user_videos', methods=['POST'])
-# def return_user_videos():
-#     user_id = request.get_json().get('id')
-#     videos = Videos.query.filter_by(id=user_id).all()
-#     results = videos_schema.dump(videos)
-#     response = jsonify(results)
-#     return response
 
 
 # Route to retrieve videos from database based on event type
