@@ -173,7 +173,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend-serverless/dev/1669182524587-2022-11-23T05:48:44.587Z/backend-serverless.zip"
+                "S3Key": "serverless/backend-serverless/dev/1669182559646-2022-11-23T05:49:19.646Z/backend-serverless.zip"
               },
               "Handler": "wsgi_handler.handler",
               "Runtime": "python3.8",
@@ -482,7 +482,7 @@
     "artifact": "C:\\Users\\Kaden\\Desktop\\Repositories\\CloudStorage\\backend-serverless\\.serverless\\backend-serverless.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/backend-serverless/dev/1669182524587-2022-11-23T05:48:44.587Z",
+    "artifactDirectoryName": "serverless/backend-serverless/dev/1669182559646-2022-11-23T05:49:19.646Z",
     "artifact": "backend-serverless.zip"
   }
 }
