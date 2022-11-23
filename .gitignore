@@ -3,8 +3,11 @@
 # dependencies
 /node_modules
 /backend/uploads
+<<<<<<< HEAD
 /backend-serverless/node_modules
 /backend-serverless/.serverless/requirements
+/backend-serverless/.env
+.env
 
 #extra
 /backend/__pycache__

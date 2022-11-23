@@ -1,5 +1,7 @@
 #videocard {
-  background-color: aqua;
+  display: inline-block;
+  margin: 40px;
+  background-color: rgb(0, 0, 0);
   border-radius: 25px;
   width: 200px;
   height: 200px;
@@ -7,6 +9,15 @@
   .videoname {
     text-align: center;
     font-size: medium;
-    color: black;
+    color: lightblue;
+  }
+
+  button {
+    background-color: red;
+
+    a {
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+    }
   }
 }

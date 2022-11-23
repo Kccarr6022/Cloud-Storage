@@ -4,7 +4,11 @@
 # This file houses the definitions for all the database models via SQLAlchemy.
 #
 ###############################################
+
+from enum import unique
+from sqlalchemy import true, ForeignKey
 from app import db,ma
+from datetime import datetime
 
 # Database classes
 class Users(db.Model):
@@ -19,18 +23,19 @@ class Users(db.Model):
         return f"Name: {self.first_name}, {self.last_name}"
 
 class Videos(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100))
-    event_type = db.Column(db.String(10))
-    duration = db.Column(db.String(100))
-    fps = db.Column(db.Integer, nullable=False)
-    original_fps = db.Column(db.Integer, nullable=False)
-    date = db.Column(db.String(100))
-    time = db.Column(db.String(100))
-    size = db.Column(db.Float)
-    width = db.Column(db.Integer)
-    height = db.Column(db.Integer)
-    url = db.Column(db.String(100), nullable=False)
+    id = db.Column(db.Text, ForeignKey("users.id"))
+    name = db.Column(db.Text, primary_key = True)
+    event_type = db.Column(db.Text, nullable=True)
+    duration = db.Column(db.Text, nullable=False)
+    fps = db.Column(db.Integer, nullable=True)
+    original_fps = db.Column(db.Integer, nullable=True)
+    date = db.Column(db.Text, nullable=False)
+    time = db.Column(db.Text, nullable=False)
+    size = db.Column(db.Float, nullable= False)
+    width = db.Column(db.Integer, nullable = False)
+    height = db.Column(db.Integer, nullable = False)
+    url = db.Column(db.Text, nullable=False)
+    is_public = db.Column(db.Boolean, nullable=False, default=False)
 
     def __rep__(self):
         return f"Name: {self.name}, {self.event_type}"

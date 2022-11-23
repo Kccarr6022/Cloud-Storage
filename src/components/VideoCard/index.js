@@ -1,19 +1,23 @@
-import React, { useContext, useEffect } from "react";
-import { Context } from "../../store/appContext";
-import "./index.scss";
+import React, { useContext, useEffect } from 'react'
+import { Context } from '../../store/appContext'
+import './index.scss'
+import { Button } from '@material-ui/core'
 
-const VideoCard = (props) => {
-  const { store } = useContext(Context);
+const VideoCard = props => {
+  const { store } = useContext(Context)
 
-  return store.videos ? (
-    <div id="videocard">
-      <h1 className="videoname">video title</h1>
+  return (
+    <div id='videocard'>
+      <h1 className='videoname'>{props.video['name']}</h1>
+      <video autoPlay controls muted src={props.video['url']} width='200px' />
+      <h1 className='videoname'>{props.video['date']}</h1>
+      <button>
+        <a href={props.video['url']}> Download </a>
+      </button>
+      <button>Watch</button>
+      <button>Del</button>
     </div>
-  ) : (
-    <div id="videocard">
-      <h1>loading</h1>
-    </div>
-  );
-};
+  )
+}
 
-export default VideoCard;
+export default VideoCard

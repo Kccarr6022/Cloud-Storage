@@ -36,12 +36,11 @@ def login():
     email = data.get("email")
     password = data.get("password")
 
-    credentials_match = Users.query.filter_by(email=email, password=password).all()
-    if not credentials_match:
+    user = Users.query.filter_by(email=email, password=password).all()
+    if not user:
         return jsonify({"msg": "Bad username or password"}), 401 # unauthorized
     else:
-        print('good response')
-        access_token = create_access_token(identity=email)
+        access_token = user[-1].id
         return jsonify(access_token=access_token), 200
 
 @app.route("/api/register", methods=["POST"])
@@ -58,6 +57,7 @@ def register():
         return jsonify({"msg": "Bad username or password"}), 409 # Already exists
     # if email is not in database create account
     else:
+        print('email does not exist')
         access_token = create_access_token(identity=email)
         user = Users(id=access_token,
          first_name=firstname,
@@ -93,7 +93,18 @@ def return_users():
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
-    videos = Videos.query.all()
+    videos = Videos.query.filter(Videos.is_public == True).all()
+    for video in videos:
+        video.id = "private"
+    results = videos_schema.dump(videos)
+    response = jsonify(results)
+    return response
+
+# Route to retrieve alll video from database
+@app.route('/api/user_videos', methods=['POST'])
+def return_user_videos():
+    user_id = request.get_json().get('id')
+    videos = Videos.query.filter((Videos.id==user_id) | (Videos.is_public == True)).all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
     return response
@@ -132,39 +143,32 @@ def search_by_date_time():
 ####################################
 
 # Route to put data into database
-@app.route('/add_video', methods=["POST"])
+@app.route('/api/add_video', methods=["POST"])
 def post_video():
     data = request.get_json()
-    name = data.get("name")
-    event_type = data.get("event_type")
-    duration = data.get("duration")
-    fps = int(data.get("fps"))
-    original_fps = int(data.get("original_fps"))
-    date = data.get("date")
-    time = data.get("time")
-    size = float(data.get("size"))
-    if data.get("resolution") == "4k":
-        width = 3840
-        height = 2160
-    elif data.get("resolution") == "1080p":
-        width=1920
-        height=1080
-    url = data.get("url")
+    print(data)
+    print(data.get('id'))
+    
 
-    test_vid = Videos(name=name,
-                          event_type=event_type,
-                          duration=duration,
-                          fps=fps,
-                          original_fps=original_fps,
-                          date=date,
-                          time=time,
-                          size=size,
-                          width=width,
-                          height=height,
-                          url=url)
+    video = Videos(id=data.get('id'),
+                        name=data.get('name'),
+                        event_type=data.get('event_type'),
+                        duration=data.get('duration'),
+                        fps=int(data.get('fps')),
+                        original_fps=data.get('original_fps'),
+                        date=data.get('date'),
+                        time=data.get('time'),
+                        size=float(data.get('size')),
+                        width=int(data.get('width')),
+                        height=int(data.get('height')),
+                        url=data.get('url'),
+                        is_public=bool(data.get('is_public')))
 
-    db.session.add(test_vid)
+    db.session.add(video)
     db.session.commit()
+
+    return jsonify({"msg": "success"}), 200 # success
+    
 
 
 if __name__ == "__main__":
