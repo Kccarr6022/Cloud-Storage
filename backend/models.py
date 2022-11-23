@@ -4,12 +4,7 @@
 # This file houses the definitions for all the database models via SQLAlchemy.
 #
 ###############################################
-
-from enum import unique
-from sqlalchemy import true
 from app import db,ma
-from datetime import datetime
-import typing
 
 # Database classes
 class Users(db.Model):

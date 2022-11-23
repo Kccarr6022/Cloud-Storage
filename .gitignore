@@ -2,9 +2,11 @@
 
 # dependencies
 /node_modules
-/backend/.env
 /backend/uploads
+/backend-serverless/node_modules
+/backend-serverless/.serverless/requirements
 
 #extra
 /backend/__pycache__
 /backend/instance
+/backend/.env
