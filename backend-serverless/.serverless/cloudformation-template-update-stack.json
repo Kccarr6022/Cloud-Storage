@@ -161,7 +161,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/backend-serverless/dev/1669266819422-2022-11-24T05:13:39.422Z/backend-serverless.zip"
+          "S3Key": "serverless/backend-serverless/dev/1669271266825-2022-11-24T06:27:46.825Z/backend-serverless.zip"
         },
         "Handler": "wsgi_handler.handler",
         "Runtime": "python3.8",
@@ -182,14 +182,14 @@
         "ApiLogGroup"
       ]
     },
-    "ApiLambdaVersionKnHaj06YvkTOo0zXgq6gUYIhsuXTkUyD3Q2qzEeSEs": {
+    "ApiLambdaVersionyT25ZB1OCqFEMV7C5Oheq289DEiSuIdXFhrXvrZuFs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ApiLambdaFunction"
         },
-        "CodeSha256": "DLykrqwLmi/sCYiCEaQfxULDQZH9F+RUWK1h9hV+KrY="
+        "CodeSha256": "8N5wRITuZ609Rli53ktJLIMuVWUJpRVfVBhY+L7AJ4o="
       }
     },
     "HttpApi": {
@@ -299,7 +299,7 @@
     "ApiLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ApiLambdaVersionKnHaj06YvkTOo0zXgq6gUYIhsuXTkUyD3Q2qzEeSEs"
+        "Ref": "ApiLambdaVersionyT25ZB1OCqFEMV7C5Oheq289DEiSuIdXFhrXvrZuFs"
       },
       "Export": {
         "Name": "sls-backend-serverless-dev-ApiLambdaFunctionQualifiedArn"
