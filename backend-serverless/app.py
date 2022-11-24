@@ -64,7 +64,9 @@ def return_archieve():
     users = Users.query.all()
     videos = Videos.query.all()
     results = user_schema.dump(users)
-    return jsonify(users)
+    response = jsonify(users)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 # Route to retrieve alll user data from database
 @app.route('/api/users', methods=['GET'])
@@ -72,6 +74,7 @@ def return_users():
     users = Users.query.all()
     results = users_schema.dump(users)
     response = jsonify(results)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 # Route to retrieve alll video from database
@@ -82,6 +85,7 @@ def return_videos():
         video.id = "private"
     results = videos_schema.dump(videos)
     response = jsonify(results)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 # Route to retrieve alll video from database
@@ -91,6 +95,7 @@ def return_user_videos():
     videos = Videos.query.filter((Videos.id==user_id) | (Videos.is_public == True)).all()
     results = videos_schema.dump(videos)
     response = jsonify(results)
+    response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 
@@ -129,29 +134,33 @@ def return_user_videos():
 # Route to put data into database
 @app.route('/api/add_video', methods=["POST"])
 def post_video():
+
     data = request.get_json()
-    print(data)
-    print(data.get('id'))
+
+    if not data:
+        return "No videos for user", 404
     
+    try:
+        video = Videos(id=data.get('id'),
+                            name=data.get('name'),
+                            event_type=data.get('event_type'),
+                            duration=data.get('duration'),
+                            fps=int(data.get('fps')),
+                            original_fps=data.get('original_fps'),
+                            date=data.get('date'),
+                            time=data.get('time'),
+                            size=float(data.get('size')),
+                            width=int(data.get('width')),
+                            height=int(data.get('height')),
+                            url=data.get('url'),
+                            is_public=bool(data.get('is_public')))
 
-    video = Videos(id=data.get('id'),
-                        name=data.get('name'),
-                        event_type=data.get('event_type'),
-                        duration=data.get('duration'),
-                        fps=int(data.get('fps')),
-                        original_fps=data.get('original_fps'),
-                        date=data.get('date'),
-                        time=data.get('time'),
-                        size=float(data.get('size')),
-                        width=int(data.get('width')),
-                        height=int(data.get('height')),
-                        url=data.get('url'),
-                        is_public=bool(data.get('is_public')))
+        db.session.add(video)
+        db.session.commit()
 
-    db.session.add(video)
-    db.session.commit()
-
-    return jsonify({"msg": "success"}), 200 # success
+        return jsonify({"msg": "success"}), 200 # success
+    except:
+        return jsonify({"msg": "Incorrect information"}), 500 # success
     
 
 
