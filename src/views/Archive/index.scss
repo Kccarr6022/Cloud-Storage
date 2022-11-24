@@ -1,18 +1,21 @@
 .archive-page {
-  height: 100vh;
-  background-image: url("../../assets/background.jpg");
-
+  min-height: 100vh;
+  height: auto;
+  background-image: url('../../assets/background.jpg');
+  padding-bottom: 10vh;
   .title {
     padding-top: 2rem;
     margin-left: 2rem;
     font-size: 62px;
     font-weight: 700;
-    color: rgb(4, 4, 42);;
+    color: rgb(4, 4, 42);
   }
 
   .videos {
     width: 80%;
-    height: 80%;
+    min-height: 80vh;
+    height: auto;
+    overflow: hidden;
     border-radius: 25px;
     background-color: rgb(4, 4, 42);
     align-content: center;
@@ -23,5 +26,10 @@
     color: white;
     text-align: center;
     font-size: xx-large;
+  }
+
+  .videocard-container {
+    margin: 0 auto;
+    
   }
 }

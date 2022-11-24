@@ -141,10 +141,12 @@ def post_video():
 
         db.session.add(video)
         db.session.commit()
-
-        return jsonify({"msg": "success"}), 200 # success
+        response = jsonify({"msg": "success"}) # success
+        response.headers.add('Access-Control-Allow-Origin', '*')
     except:
-        return jsonify({"msg": "Incorrect information"}), 500 # success
+        response = jsonify({"msg": "Incorrect information"}), 500 # success
+    
+    return response
     
 
 

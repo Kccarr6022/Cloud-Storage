@@ -9,7 +9,7 @@ const VideoCard = props => {
   return (
     <div id='videocard'>
       <h1 className='videoname'>{props.video['name']}</h1>
-      <video autoPlay controls muted src={props.video['url']} width='200px' />
+      <video autoPlay muted src={props.video['url']} width='200px' height='125px'/>
       <h1 className='videoname'>{props.video['date']}</h1>
       <button>
         <a href={props.video['url']}> Download </a>
