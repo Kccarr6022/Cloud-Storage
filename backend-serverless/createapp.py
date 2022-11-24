@@ -34,9 +34,8 @@ def create_app():
 
     # Database
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SQLALCHEMY_POOL_SIZE'] = 20 # sets to 100 default for production (20 for our development)
-    app.config['SQLALCHEMY_MAX_OVERFLOW'] = 50 # prevent crashes
-
+    app.config['SQLALCHEMY_POOL_SIZE'] = 100 # sets to 100 default for production (20 for our development)
+    app.config['SQLALCHEMY_MAX_OVERFLOW'] = 500 # prevent crashes
     app.config['SQLALCHEMY_DATABASE_URI'] = CONNECTION_URL
     db = SQLAlchemy(app)
 

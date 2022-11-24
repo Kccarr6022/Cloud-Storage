@@ -40,7 +40,7 @@ class Videos(db.Model):
 # Database schemas
 class VideosSchema(ma.Schema):
     class Meta: # symptom number, symptom, symptom value
-        fields = ('id', 'name', 'event_type', 'duration', 'fps', 'original_fps', 'date', 'time', 'size', 'width', 'height', 'url')
+        fields = ('name', 'event_type', 'duration', 'fps', 'original_fps', 'date', 'time', 'size', 'width', 'height', 'url', 'is_public')
 
 class UsersSchema(ma.Schema):
     class Meta:
