@@ -113,7 +113,7 @@ const Upload = () => {
 
     try {
       uploadFile(selectedFile)
-      const resp = await fetch('http://localhost:5000/api/add_video', opts)
+      const resp = await fetch(process.env.REACT_APP_SERVICE_URI + 'api/add_video', opts)
       if (resp.status !== 200) {
         alert('There has been an error')
         return false

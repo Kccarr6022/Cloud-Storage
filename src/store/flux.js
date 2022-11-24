@@ -21,7 +21,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
 
         try {
-          const resp = await fetch('http://localhost:5000/api/login', opts)
+          const resp = await fetch(process.env.REACT_APP_SERVICE_URI + 'api/login', opts)
           if (resp.status !== 200) {
             alert('There has been an error')
             return false
@@ -55,7 +55,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
 
         try {
-          const resp = await fetch('http://localhost:5000/api/register', opts)
+          const resp = await fetch(process.env.REACT_APP_SERVICE_URI + 'api/register', opts)
           if (resp.status !== 200) {
             alert('There has been an error')
             return false
@@ -86,7 +86,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             id: store.token,
           }),
         }
-        fetch('http://localhost:5000/api/user_videos', opts)
+        fetch(process.env.REACT_APP_SERVICE_URI + 'api/user_videos', opts)
           .then(resp => resp.json())
           .then(data => setStore({ videos: data }))
           .catch(error => {
@@ -101,7 +101,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             'Content-Type': 'application/json',
           },
         }
-        fetch('http://localhost:5000/api/videos', opts)
+        fetch(process.env.REACT_APP_SERVICE_URI + 'api/videos', opts)
           .then(resp => resp.json())
           .then(data => setStore({ videos: data }))
           .catch(error => {
