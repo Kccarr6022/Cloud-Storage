@@ -60,7 +60,7 @@ def return_videos():
     videos = Videos.query.filter(Videos.is_public == True).all()
 
     if not videos:
-        return "No videos for user", 404
+        return "No public videos published", 404
     else:
         for video in videos:
             video.id = "private"
