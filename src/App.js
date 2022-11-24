@@ -8,17 +8,19 @@ import Upload from "./views/Upload";
 import Archive from "./views/Archive";
 import SignIn from "./views/Account/Signin/index.js";
 import Register from "./views/Account/Register";
+import VideoView from './views/VideoView'
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="/archive" element={<Archive />} />
-        <Route path="/live" element={<Live />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/register" element={<Register />} />
+        <Route exact path="/" element={<Home />} />
+        <Route exact path="/upload" element={<Upload />} />
+        <Route exact path="/archive" element={<Archive />} />
+        <Route exact path="/live" element={<Live />} />
+        <Route exact path="/signin" element={<SignIn />} />
+        <Route exact path="/register" element={<Register />} />
+        <Route exact path="/view/:video" element={<VideoView />} />
       </Routes>
     </>
   );
