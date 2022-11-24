@@ -1,11 +1,7 @@
-from flask import Flask, render_template, request, jsonify, Blueprint, send_from_directory
-from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+from flask import render_template, request, jsonify
 from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity, jwt_required
 from models import Users, Videos, video_schema, videos_schema, user_schema, users_schema
 from app import create_app,db
-import boto3, botocore
 import os
 
 ####################################
