@@ -5,10 +5,8 @@
 #
 ###############################################
 
-from enum import unique
 from sqlalchemy import true, ForeignKey
 from app import db,ma
-from datetime import datetime
 
 # Database classes
 class Users(db.Model):
