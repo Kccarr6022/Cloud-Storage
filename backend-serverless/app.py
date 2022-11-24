@@ -13,12 +13,8 @@ app = create_app()
 
 @app.route('/api/login', methods=['POST'])
 def login():
-    print(request)
-    print('working')
-    data = request.get_json()
-    print(data)
-    email = data.get("email")
-    password = data.get("password")
+    email = request.get_json().get("email")
+    password = request.get_json().get("password")
 
     user = Users.query.filter_by(email=email, password=password).all()
     if not user:
@@ -29,13 +25,13 @@ def login():
 
 @app.route("/api/register", methods=["POST"])
 def register():
-    data = request.get_json()
-    firstname = data.get("firstname")
-    lastname = data.get("lastname")
-    email = data.get("email")
-    password = data.get("password")
+    firstname = request.get_json().get("firstname")
+    lastname = request.get_json().get("lastname")
+    email = request.get_json().get("email")
+    password = request.get_json().get("password")
 
     email_exists = Users.query.filter_by(email=email).all()
+    
     # if email is in database return already created
     if email_exists:
         return jsonify({"msg": "Bad username or password"}), 409 # Already exists
@@ -58,44 +54,35 @@ def register():
 #
 ####################################
 
-# Route to retrieve alll data from database
-@app.route('/api/archive', methods=['GET'])
-def return_archieve():
-    users = Users.query.all()
-    videos = Videos.query.all()
-    results = user_schema.dump(users)
-    response = jsonify(users)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
-# Route to retrieve alll user data from database
-@app.route('/api/users', methods=['GET'])
-def return_users():
-    users = Users.query.all()
-    results = users_schema.dump(users)
-    response = jsonify(results)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
-
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
     videos = Videos.query.filter(Videos.is_public == True).all()
-    for video in videos:
-        video.id = "private"
-    results = videos_schema.dump(videos)
-    response = jsonify(results)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+
+    if not videos:
+        return "No videos for user", 404
+    else:
+        for video in videos:
+            video.id = "private"
+        results = videos_schema.dump(videos)
+        response = jsonify(results)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
 
 # Route to retrieve alll video from database
 @app.route('/api/user_videos', methods=['POST'])
 def return_user_videos():
     user_id = request.get_json().get('id')
     videos = Videos.query.filter((Videos.id==user_id) | (Videos.is_public == True)).all()
-    results = videos_schema.dump(videos)
-    response = jsonify(results)
-    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    if not videos:
+        return "No videos for user", 404
+    else:
+    
+        results = videos_schema.dump(videos)
+        response = jsonify(results)
+        response.headers.add('Access-Control-Allow-Origin', '*')
+
     return response
 
 
@@ -136,9 +123,6 @@ def return_user_videos():
 def post_video():
 
     data = request.get_json()
-
-    if not data:
-        return "No videos for user", 404
     
     try:
         video = Videos(id=data.get('id'),
