@@ -27,6 +27,8 @@ The classification involves the Admin and the Authorized User. The user class ca
 
 2.4 Operating Environment
 The software is designed to operate in a Linux Ubuntu Amazon EC2 environment. The dependencies required for our Software are involved in the pip virtual environment. These dependencies include “flask”, “flask_sqlalchemy”, and “flask_marshmallow” with Python 3.10.4 installed. 
+![image](https://user-images.githubusercontent.com/71856219/203687730-5a4901bf-7335-41a5-9b3d-eb3dbad2ad52.png)
+
 
 2.5 Constraints
 The constraints of the project involve access to AWS, the on-premise camera server staying online, as well as S3 to remain in operations.
