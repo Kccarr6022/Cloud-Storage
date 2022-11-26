@@ -10,9 +10,7 @@ const Live = () => {
         <h3 className="title">Live</h3>
 
         <iframe
-          src="//www.googletagmanager.com/ns.html?id=GTM-KNG43F"
-          height="1920"
-          width="1080"
+          src="https://d1mzwrkya7g9dq.cloudfront.net/out/v1/d9b93ceaadee45c5a12dbfa5c8566e54/index.m3u8"
         ></iframe>
       </div>
     </>
