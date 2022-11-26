@@ -20,7 +20,7 @@ const Upload = () => {
   const { store, actions } = useContext(Context)
   const [id, setId] = useState(null)
   const [name, setName] = useState(null)
-  const [eventType, setEventType] = useState(null)
+  const [eventType, setEventType] = useState('Intracloud')
   const [duration, setDuration] = useState(null)
   const [fps, setFps] = useState(null)
   const [originalFps, setOriginalFps] = useState(null)

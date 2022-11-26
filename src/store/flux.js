@@ -108,6 +108,21 @@ const getState = ({ getStore, getActions, setStore }) => {
             console.log('An error occured', error)
           })
       },
+      deleteVideo: () => {
+        const opts = {
+          method: 'delete',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+        fetch(process.env.REACT_APP_SERVICE_URI + 'api/videos', opts)
+          .then(resp => resp.json())
+          .then(data => setStore({ videos: data }))
+          .catch(error => {
+            console.log('An error occured', error)
+          })
+      }
     },
   }
 }

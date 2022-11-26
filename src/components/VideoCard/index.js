@@ -8,9 +8,10 @@ const VideoCard = props => {
 
   return (
     <div id='videocard'>
-      <h1 className='videoname'>{props.video['name']}</h1>
+      <h1 className='video-name'>{props.video['name']}</h1>
+      <h1 className='video-type'>{props.video['event_type']}</h1>
       <video autoPlay muted src={props.video['url']} width='200px' height='125px'/>
-      <h1 className='videoname'>{props.video['date']}</h1>
+      <h1 className='video-date'>{props.video['date']}  {props.video['time']}</h1>
       <button>
         <a href={props.video['url']}> Download </a>
       </button>
