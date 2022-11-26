@@ -1,21 +1,33 @@
 .register-page {
   height: 100vh;
-  background-image: url("../../../assets/background.jpg");
-  align-items: center;
-  padding-bottom: 4rem;
+  background-image: url('../../../assets/background.jpg');
+  color: #c8d4de;
+
   .title {
+    text-align: center;
     padding-top: 2rem;
     margin-left: 2rem;
     font-size: 62px;
     font-weight: 700;
-    color: #c8d4de;
   }
 
-  label {
-    color: RGB(200, 212, 222);
-    display: inline;
-  }
-  input {
-    display: block;
+  .register-form {
+    background-color: rgb(4, 4, 42);
+    text-align: center;
+    align-items: center;
+    margin: 1rem 5rem 0 5rem;
+    padding-bottom: 3rem;
+    padding-top: 2rem;
+    border-radius: 25px;
+
+
+    label {
+      color: RGB(200, 212, 222);
+      display: block;
+    }
+    input {
+      display: inline;
+      margin-bottom: 2rem;
+    }
   }
 }

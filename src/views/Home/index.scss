@@ -1,12 +1,18 @@
 .home-page {
   height: 100vh;
-  background-image: url("../../assets/background.jpg");
+  background-image: url('../../assets/background.jpg');
 
   .title {
     padding-top: 2rem;
     margin-left: 2rem;
     font-size: 62px;
     font-weight: 700;
-    color: #c8d4de;
+    color: rgb(4, 4, 42);
+  }
+
+  p {
+    margin-top: 2rem;
+    color: white;
+    margin: 0 2rem;
   }
 }
