@@ -6,6 +6,25 @@ import { Button } from '@material-ui/core'
 const VideoCard = props => {
   const { store } = useContext(Context)
 
+  const deleteVideo = async => {
+    const opts = {
+      method: 'delete',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: store.token, // current foreign key (change)
+        name: props.video['name'], // current primary key (change)
+      }),
+    }
+    fetch(process.env.REACT_APP_SERVICE_URI + 'api/delete_video', opts)
+      .then(resp => resp.json())
+      .catch(error => {
+        console.log('An error occured', error)
+      })
+  }
+
   return (
     <div id='videocard'>
       <h1 className='video-name'>{props.video['name']}</h1>
@@ -16,7 +35,7 @@ const VideoCard = props => {
         <a href={props.video['url']}> Download </a>
       </button>
       <button>Watch</button>
-      <button>Del</button>
+      <button onClick={deleteVideo}>Del</button>
     </div>
   )
 }
