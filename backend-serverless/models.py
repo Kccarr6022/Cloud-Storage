@@ -20,7 +20,7 @@ class Users(db.Model):
         return f"Name: {self.first_name}, {self.last_name}"
 
 class Videos(db.Model):
-    id = db.Column(db.Text, ForeignKey("users.id"))
+    user_id = db.Column(db.Text, ForeignKey("users.id"))
     name = db.Column(db.Text, primary_key = True)
     event_type = db.Column(db.Text, nullable=True)
     duration = db.Column(db.Text, nullable=False)

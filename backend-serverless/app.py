@@ -73,7 +73,7 @@ def return_videos():
 @app.route('/api/user_videos', methods=['POST'])
 def return_user_videos():
     user_id = request.get_json().get('id')
-    videos = Videos.query.filter((Videos.id==user_id) | (Videos.is_public == True)).all()
+    videos = Videos.query.filter((Videos.user_id==user_id) | (Videos.is_public == True)).all()
 
     if not videos:
         return "No videos for user", 404
