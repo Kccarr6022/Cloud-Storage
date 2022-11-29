@@ -35,3 +35,21 @@
     }
   }
 }
+
+#promptcard {
+  display: inline-block;
+  margin: 40px;
+  background-color: rgb(0, 0, 0);
+  border-radius: 25px;
+  width: 200px;
+  height: 250px;
+
+  .prompt {
+    text-align: center;
+    font-size: medium;
+    color: rgb(0, 191, 255);
+    font-size: large;
+    font-weight: bold;
+  }
+
+}
