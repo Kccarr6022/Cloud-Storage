@@ -95,7 +95,7 @@ const Upload = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: store['token'],
+        user_id: store['token'],
         name: name,
         event_type: eventType,
         duration: duration,

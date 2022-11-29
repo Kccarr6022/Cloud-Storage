@@ -173,7 +173,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/backend-serverless/dev/1669271266825-2022-11-24T06:27:46.825Z/backend-serverless.zip"
+                "S3Key": "serverless/backend-serverless/dev/1669747363914-2022-11-29T18:42:43.914Z/backend-serverless.zip"
               },
               "Handler": "wsgi_handler.handler",
               "Runtime": "python3.8",
@@ -194,14 +194,14 @@
               "ApiLogGroup"
             ]
           },
-          "ApiLambdaVersionyT25ZB1OCqFEMV7C5Oheq289DEiSuIdXFhrXvrZuFs": {
+          "ApiLambdaVersionK1Ec6jGSlv7gwYGegFHrKs6IvN5bvfzHcy5Mb7kskI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ApiLambdaFunction"
               },
-              "CodeSha256": "8N5wRITuZ609Rli53ktJLIMuVWUJpRVfVBhY+L7AJ4o="
+              "CodeSha256": "+cfpkRnjk25YqLNl0vJ/rQvt2cFwnZlQvJtd2eI3/Hc="
             }
           },
           "HttpApi": {
@@ -308,7 +308,7 @@
           "ApiLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ApiLambdaVersionyT25ZB1OCqFEMV7C5Oheq289DEiSuIdXFhrXvrZuFs"
+              "Ref": "ApiLambdaVersionK1Ec6jGSlv7gwYGegFHrKs6IvN5bvfzHcy5Mb7kskI"
             },
             "Export": {
               "Name": "sls-backend-serverless-dev-ApiLambdaFunctionQualifiedArn"
@@ -462,7 +462,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "ApiLambdaVersionyT25ZB1OCqFEMV7C5Oheq289DEiSuIdXFhrXvrZuFs"
+        "versionLogicalId": "ApiLambdaVersionK1Ec6jGSlv7gwYGegFHrKs6IvN5bvfzHcy5Mb7kskI"
       }
     },
     "configValidationMode": "warn",
@@ -488,7 +488,7 @@
     "artifact": "C:\\Users\\Kaden\\Desktop\\Repositories\\CloudStorage\\backend-serverless\\.serverless\\backend-serverless.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/backend-serverless/dev/1669271266825-2022-11-24T06:27:46.825Z",
+    "artifactDirectoryName": "serverless/backend-serverless/dev/1669747363914-2022-11-29T18:42:43.914Z",
     "artifact": "backend-serverless.zip"
   }
 }
