@@ -60,12 +60,12 @@ def return_videos():
     videos = Videos.query.filter(Videos.is_public == True).all()
 
     if not videos:
-        return "No videos for user", 404
+        response = jsonify({"message": "No videos for user"}), 404
     else:
     
         results = videos_schema.dump(videos)
-        response = jsonify(results)
         response.headers.add('Access-Control-Allow-Origin', '*')
+        response = jsonify(results)
 
     return response
 
@@ -125,7 +125,7 @@ def post_video():
     data = request.get_json()
     
     try:
-        video = Videos(id=data.get('id'),
+        video = Videos(user_id=data.get('user_id'),
                             name=data.get('name'),
                             event_type=data.get('event_type'),
                             duration=data.get('duration'),
