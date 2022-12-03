@@ -15,7 +15,7 @@ const VideoCard = props => {
     setPrompt(null)
   }
 
-  const deleteVideo = async => {
+  const deleteVideo = async () => {
     const opts = {
       method: 'delete',
       headers: {
@@ -27,7 +27,7 @@ const VideoCard = props => {
         name: props.video['name'], // current primary key (change)
       }),
     }
-    fetch(process.env.REACT_APP_SERVICE_URI + 'api/delete_video', opts)
+    await fetch(process.env.REACT_APP_SERVICE_URI + 'api/delete_video', opts)
       .then(resp => resp.json())
       .catch(error => {
         console.log('An error occured', error)
@@ -63,9 +63,7 @@ const VideoCard = props => {
             </div>
           </>
         )
-      ) : (
-        <></>
-      )}
+      ) : null}
     </>
   )
 }
