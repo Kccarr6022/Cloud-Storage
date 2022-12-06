@@ -167,6 +167,25 @@ def delete_video():
     
     return response
 
+@app.route('/api/get_video', methods=['POST']) 
+def get_video():
+    video = data = request.get_json().get('video')
+
+    print(request.get_json().get('video'))
+
+
+    try:
+        video = Videos.query.filter_by(url=f"https://cloudstoragebuckets3.s3.amazonaws.com/{video}").first()
+        video = video_schema.dump(video)
+        response = jsonify(video) # success
+        response.headers.add('Access-Control-Allow-Origin', '*')
+    except Exception as e:
+        print(e)
+        response = jsonify({"msg": "Incorrect information"}), 500 # success
+    
+    return response
+
+
 @app.route('/')
 def response():
     data = []

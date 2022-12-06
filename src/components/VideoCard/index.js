@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Context } from '../../store/appContext'
+import { useNavigate } from 'react-router-dom'
 import './index.scss'
 
 const VideoCard = props => {
   const { store } = useContext(Context)
   const [videoExists, setVideoExists] = useState(true)
   const [prompt, setPrompt] = useState(null)
+  let navigate = useNavigate()
 
   const handledelete = () => {
     setPrompt('Would you like to delete this video')
@@ -49,7 +51,15 @@ const VideoCard = props => {
             <button>
               <a href={props.video['url']}> Download </a>
             </button>
-            <button>Watch</button>
+            <button
+              onClick={() => {
+                let video = props.video['url']
+                video = video.split('.com/')[1]
+                navigate(`/watch/${video}`)
+              }}
+            >
+              Watch
+            </button>
             <button onClick={handledelete}>Del</button>
           </div>
         ) : (

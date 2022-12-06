@@ -9,6 +9,17 @@
     color: rgb(4, 4, 42);
   }
 
+  .live {
+    width: 80%;
+    min-height: 80vh;
+    height: auto;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: rgb(4, 4, 42);
+    align-content: center;
+    margin: 0 auto;
+  }
+
   iframe {
   }
 }
