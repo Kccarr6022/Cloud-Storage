@@ -25,4 +25,15 @@
     font-size: 28px;
     color: white;
   }
+
+  button {
+    margin-top: 1rem;
+    font-size:28px;
+    background-color: red;
+
+    a {
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+    }
+  }
 }

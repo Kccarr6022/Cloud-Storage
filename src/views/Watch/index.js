@@ -46,9 +46,7 @@ const Watch = () => {
           <h1 className='title'>Watching {videoObject != null && videoObject.name}</h1>
           <div className='watch-container'>
             {videoObject && <video autoPlay controls src={videoObject.url}></video>}
-            <h2>
-                Meta Data:
-            </h2>
+            <h2>Meta Data:</h2>
             <table align='center'>
               <tr>
                 <th>Date</th>
@@ -62,35 +60,20 @@ const Watch = () => {
                 <th>Width</th>
               </tr>
               <tr>
-                <td>
-                    {videoObject.date}
-                </td>
-                <td>
-                    {videoObject.duration}
-                </td>
-                <td>
-                    {videoObject.event_type}
-                </td>
-                <td>
-                    {videoObject.fps}
-                </td>
-                <td>
-                    {videoObject.original_fps}
-                </td>
-                <td>
-                    {videoObject.size}
-                </td>
-                <td>
-                    {videoObject.time}
-                </td>
-                <td>
-                    {videoObject.height}
-                </td>
-                <td>
-                    {videoObject.width}
-                </td>
+                <td>{videoObject.date}</td>
+                <td>{videoObject.duration}</td>
+                <td>{videoObject.event_type}</td>
+                <td>{videoObject.fps}</td>
+                <td>{videoObject.original_fps}</td>
+                <td>{videoObject.size}</td>
+                <td>{videoObject.time}</td>
+                <td>{videoObject.height}</td>
+                <td>{videoObject.width}</td>
               </tr>
             </table>
+            <button>
+              <a href={videoObject.url}> Download </a>
+            </button>
           </div>
         </div>
       ) : null}
