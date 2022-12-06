@@ -43,16 +43,56 @@ const Watch = () => {
       <NavBar />
       {videoObject ? (
         <div className='watch-page'>
-        <h1 className='title'>Watching {videoObject != null && videoObject.name}</h1>
-        <div className='watch-container'>
-          {videoObject && <video autoPlay controls src={videoObject.url}></video>}
-          <div className='meta-data'>
-            <h3>
-            Date: {videoObject.date} Duration: {videoObject.duration}
-            </h3>
+          <h1 className='title'>Watching {videoObject != null && videoObject.name}</h1>
+          <div className='watch-container'>
+            {videoObject && <video autoPlay controls src={videoObject.url}></video>}
+            <h2>
+                Meta Data:
+            </h2>
+            <table align='center'>
+              <tr>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Event Type</th>
+                <th>FPS</th>
+                <th>Original FPS</th>
+                <th>Size</th>
+                <th>Time</th>
+                <th>Height</th>
+                <th>Width</th>
+              </tr>
+              <tr>
+                <td>
+                    {videoObject.date}
+                </td>
+                <td>
+                    {videoObject.duration}
+                </td>
+                <td>
+                    {videoObject.event_type}
+                </td>
+                <td>
+                    {videoObject.fps}
+                </td>
+                <td>
+                    {videoObject.original_fps}
+                </td>
+                <td>
+                    {videoObject.size}
+                </td>
+                <td>
+                    {videoObject.time}
+                </td>
+                <td>
+                    {videoObject.height}
+                </td>
+                <td>
+                    {videoObject.width}
+                </td>
+              </tr>
+            </table>
           </div>
         </div>
-      </div>
       ) : null}
     </>
   )
