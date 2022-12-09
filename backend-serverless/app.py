@@ -1,3 +1,10 @@
+###############################################
+# APP Routes
+# --------------------
+# This file houses all the routes that hit the API and returns datbaase queries 
+#
+###############################################
+
 from flask import Flask, jsonify, make_response, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
@@ -13,6 +20,12 @@ app = create_app()
 
 @app.route('/api/login', methods=['POST'])
 def login():
+    """
+    A post request to this route with a username
+    and password will return an authentication token
+    to be stored as a session token and used for recieving,
+    posting, and deleting video enteries
+    """
     email = request.get_json().get("email")
     password = request.get_json().get("password")
 
@@ -25,6 +38,10 @@ def login():
 
 @app.route("/api/register", methods=["POST"])
 def register():
+    """
+    Route for a new account to be generated and uses
+    flask_jwt to generate unique token for user
+    """
     firstname = request.get_json().get("firstname")
     lastname = request.get_json().get("lastname")
     email = request.get_json().get("email")
@@ -57,6 +74,9 @@ def register():
 # Route to retrieve alll video from database
 @app.route('/api/videos', methods=['GET'])
 def return_videos():
+    """
+    Returns videos with is_public as true in database
+    """
     videos = Videos.query.filter(Videos.is_public == True).all()
 
     if not videos:
@@ -71,6 +91,9 @@ def return_videos():
 # Route to retrieve alll video from database
 @app.route('/api/user_videos', methods=['POST'])
 def return_user_videos():
+    """
+    Returns videos matching the user id in the database
+    """
     user_id = request.get_json().get('id')
     videos = Videos.query.filter((Videos.user_id==user_id) | (Videos.is_public == True)).all()
 
@@ -120,6 +143,9 @@ def return_user_videos():
 # Route to put data into database
 @app.route('/api/add_video', methods=["POST"])
 def post_video():
+    """
+    Allows users with a created account to post a video
+    """
 
     data = request.get_json()
     
@@ -150,6 +176,9 @@ def post_video():
 
 @app.route('/api/delete_video', methods=['DELETE'])
 def delete_video():
+    """
+    Allows owner of video to request a deletion
+    """
     
     video_id = request.get_json().get('name')
     user_id = request.get_json().get('id')
@@ -175,6 +204,9 @@ def delete_video():
 
 @app.route('/api/get_video', methods=['POST']) 
 def get_video():
+    """
+    Returns a single video from the database by primary key
+    """
     video = data = request.get_json().get('video')
 
     print(request.get_json().get('video'))
@@ -194,6 +226,9 @@ def get_video():
 
 @app.route('/')
 def response():
+    """
+    Route to test latency
+    """
     data = []
     for x in range(0,100):
         data.append({'x' : x})
