@@ -180,8 +180,8 @@ def delete_video():
     Allows owner of video to request a deletion
     """
     
-    video_id = request.get_json().get('name')
-    user_id = request.get_json().get('id')
+    video_id = request.get_json().get('video_id')
+    user_id = request.get_json().get('user_id')
     
     try:
         video = Videos.query.filter_by(name=video_id).first()

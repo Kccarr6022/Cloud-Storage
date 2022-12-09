@@ -15,18 +15,22 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 
+# loads environment variables
 load_dotenv()
 
+# inits database, ma schemas, and cross orgin requests 
 db = SQLAlchemy()
 ma = Marshmallow()
 cors = CORS()
 
+# private database keys to connect
 DB_URL = os.environ['POSTGRES_URL']
 DB = os.environ.get('POSTGRES_DB')
 DB_USER = os.environ.get('POSTGRES_USER')
 DB_PASSWORD = os.environ.get('POSTGRES_PASSWORD')
 CONNECTION_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_URL}/{DB}"
 
+# creates app and returns app with configuration
 def create_app():
     # Initialize application
     """Application-factory pattern"""

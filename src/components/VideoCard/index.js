@@ -17,6 +17,11 @@ const VideoCard = props => {
     setPrompt(null)
   }
 
+  /**
+   * Requests to delete video by passing 
+   * @parms void 
+   * @return void
+   */
   const deleteVideo = async () => {
     const opts = {
       method: 'delete',
@@ -25,16 +30,22 @@ const VideoCard = props => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: store.token, // current foreign key (change)
-        name: props.video['name'], // current primary key (change)
+        user_id: store.token, // current foreign key (change)
+        video_id: props.video['name'], // current primary key (change)
       }),
     }
     await fetch(process.env.REACT_APP_SERVICE_URI + 'api/delete_video', opts)
       .then(resp => resp.json())
+      .then(resp => {
+        if (resp.status === 200) {
+          setVideoExists(false)
+        } else {
+          setPrompt('You are unauthorized to do delete this video.')
+        }
+      })
       .catch(error => {
         console.log('An error occured', error)
       })
-    setVideoExists(false)
   }
 
   return (
