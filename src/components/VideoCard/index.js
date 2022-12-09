@@ -18,7 +18,7 @@ const VideoCard = props => {
   }
 
   /**
-   * Requests to delete video by passing 
+   * Requests to delete video owned by user
    * @parms void 
    * @return void
    */
