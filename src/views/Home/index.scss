@@ -1,6 +1,7 @@
 .home-page {
   height: 100vh;
   background-color: transparent;
+  color: white;
   // background-image: url('../../assets/background.jpg');
 
   .title {
@@ -9,6 +10,17 @@
     font-size: 62px;
     font-weight: 700;
     color: rgb(4, 4, 42);
+  }
+
+  .home {
+    width: 80%;
+    min-height: 80vh;
+    height: auto;
+    overflow: hidden;
+    border-radius: 25px;
+    background-color: rgb(4, 4, 42);
+    align-content: center;
+    margin: 0 auto;
   }
 
   p {

@@ -152,15 +152,21 @@ def post_video():
 def delete_video():
     
     video_id = request.get_json().get('name')
+    user_id = request.get_json().get('id')
     
     try:
         video = Videos.query.filter_by(name=video_id).first()
 
-        db.session.delete(video)
-        db.session.commit()
+        if video.user_id == user_id:
 
-        response = jsonify({"msg": "success"}) # success
-        response.headers.add('Access-Control-Allow-Origin', '*')
+            db.session.delete(video)
+            db.session.commit()
+
+            response = jsonify({"msg": "success"}) # success
+            response.headers.add('Access-Control-Allow-Origin', '*')
+        else:
+            response = jsonify({"msg": "unauthorized"}), 401 # unauthorized
+            response.headers.add('Access-Control-Allow-Origin', '*')
     except Exception as e:
         print(e)
         response = jsonify({"msg": "Incorrect information"}), 500 # success
