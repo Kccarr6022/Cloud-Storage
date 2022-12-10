@@ -182,9 +182,11 @@ def delete_video():
     
     video_id = request.get_json().get('video_id')
     user_id = request.get_json().get('user_id')
+    print(video_id)
     
     try:
         video = Videos.query.filter_by(name=video_id).first()
+        print(video)
 
         if video.user_id == user_id:
 

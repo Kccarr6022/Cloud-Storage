@@ -19,7 +19,7 @@ const VideoCard = props => {
 
   /**
    * Requests to delete video owned by user
-   * @parms void 
+   * @parms void
    * @return void
    */
   const deleteVideo = async () => {
@@ -35,7 +35,6 @@ const VideoCard = props => {
       }),
     }
     await fetch(process.env.REACT_APP_SERVICE_URI + 'api/delete_video', opts)
-      .then(resp => resp.json())
       .then(resp => {
         if (resp.status === 200) {
           setVideoExists(false)
@@ -77,10 +76,17 @@ const VideoCard = props => {
           <>
             <div id='promptcard'>
               <h1 className='prompt'>{prompt}</h1>
-
-              <button onClick={deleteVideo}>Yes</button>
-              <br />
-              <button onClick={handleNo}>No</button>
+              {prompt == 'Would you like to delete this video' ? (
+                <>
+                  <button onClick={deleteVideo}>Yes</button>
+                  <br />
+                  <button onClick={handleNo}>No</button>
+                </>
+              ) : (
+                <>
+                <button onClick={handleNo}>Back</button>
+                </>
+              )}
             </div>
           </>
         )
