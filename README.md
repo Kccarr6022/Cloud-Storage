@@ -1,4 +1,13 @@
 # Cloud-Storage 
+
+#--Demonstration Video (Release 1.0) --
+
+
+
+https://user-images.githubusercontent.com/71856219/206829770-52fba03c-bf2c-44ae-bf82-1668970c4dff.mp4
+
+
+
 Cloud Storage is a system that enables users to create an account, login, view and download public videos and the user’s private videos, and upload videos publicly or privately. For research videos, video metadata is also stored and displayed.  Our goals was to maintain the integrity of video quality, to store important metadata, and to give access to a Live Broadcast Camera stream of local weather conditions, so as to build an understanding of their effects. An example of public data will contain lightning videos with reduced FPS, to gain a better understanding of these high speed events. To make all this possible we will be using several PaaS’s provided by AWS, an python framework, additional cloud services and libraries. The website has been built using Amazon Web Services(AWS). We utilized AWS free tier for an EC2 instance, that connects to an S3 bucket and an AWS RDS SQL database. The code below uses the Flask framework to combine React, HTML, and CSS designed in Python to create a weather archive application on that is hosted on the cloud.
 
 **1.1 Purpose**  <br />
